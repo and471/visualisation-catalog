@@ -22,10 +22,17 @@ def getBackgroundColor(filePath)
 	    end
 	end
 
-    color = ctx[:ColorThiefGetColor].call(canvasPixels, img.columns * img.rows)
-    color_string = "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
+    pixel_count = img.columns * img.rows
+
+    quality = 10
+    if (pixel_count > 500000)  quality = 7
+    if (pixel_count > 1000000) quality = 4
+    if (pixel_count > 1500000) quality = 1
     
-    #puts color_string
+    if (pixel_count > 2000000) return "rgb(255,255,255)"
+
+    color = ctx[:ColorThiefGetColor].call(canvasPixels, pixel_count, quality)
+    color_string = "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
     
 	return color_string
 end
