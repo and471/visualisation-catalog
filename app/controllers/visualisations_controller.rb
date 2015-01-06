@@ -189,13 +189,7 @@ class VisualisationsController < ApplicationController
   def create
     p = visualisation_params
     @visualisation = Visualisation.new(p)
-    $visualisation = @visualisation
-
-    Thread.new do
-      $visualisation.bgcolour = getBackgroundColor($visualisation.screenshot.path)
-      $visualisation.save!
-      ActiveRecord::Base.connection.close
-    end
+    $vis_sc_path = @visualisation.screenshot.path
 
     puts current_user.username
     current_user.visualisations << @visualisation
@@ -210,6 +204,15 @@ class VisualisationsController < ApplicationController
         format.json { render json: @visualisation.errors, status: :unprocessable_entity }
       end
     end
+
+    Thread.new do
+      bgcolour = getBackgroundColor($vis_sc_path)
+      v = Visualisation.find_by_id($id)
+      v.bgcolour = bgcolour
+      v.save!
+      ActiveRecord::Base.connection.close
+    end
+
   end
 
   # PATCH/PUT /visualisations/1
