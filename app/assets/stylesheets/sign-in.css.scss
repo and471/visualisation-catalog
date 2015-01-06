@@ -1,19 +1,17 @@
 @import "variables";
 @import "mixins";
 
-#sign-in, #external {
+#sign-in, #external, #request-access {
     margin:auto;
     width:550px;
     max-width:100%;
 }
 
+#request-access {
+    width:800px
+}
+
 #sign-in {
-    margin-top: 10%;
-    
-    @media (max-width: $mobile-width) {
-        margin-top: 0;
-    }
-    
     #logo {
         background: #3f51b5 image-url('imperial.png') 20px  center no-repeat;
         height:120px;
@@ -22,20 +20,30 @@
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
     }
+}
+
+#sign-in, #request-access {
+
+    
+    margin: 10px auto 20px auto;
     
     .inputs {
         padding:20px;   
     
-        input {
+        input, textarea {
             width:100%;
             margin-bottom:10px;
+        }
+        
+        textarea {
+            height:100px
         }
     }
     
     .bottom {
-        padding:20px;
+        padding:20px 20px 10px 20px;
         
-        .sign-in {
+        .sign-in, .request {
             @include clickable();
             float:right;
             text-transform: uppercase;

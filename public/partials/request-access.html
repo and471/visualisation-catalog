@@ -1,0 +1,18 @@
+<form id="request-access" class="card" ng-submit="request(name, company, email, notes, username, password)">
+    
+    <div class="inputs">
+        <input type="text" ng-model="name" placeholder="Full name"/>
+        <input type="text" ng-model="company" placeholder="Company/Organisation"/>
+        <input type="email" ng-model="email" placeholder="Email"/>
+        <textarea ng-model="notes" placeholder="Reasons for requiring access, notes etc."></textarea>
+        
+        <input type="text" ng-model="username" placeholder="Desired username"/>
+        <input type="password" ng-model="password" placeholder="Desired password"/>
+    </div>
+    
+    <div class="bottom">
+        <input type="submit" ng-disabled="{[{requesting}]}" class="request" value="{[{requestLabel}]}"></input>
+        <div style="clear:both"></div>
+    </div>
+
+</form>

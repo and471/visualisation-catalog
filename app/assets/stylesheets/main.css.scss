@@ -61,7 +61,7 @@ select {
     *background: #58B14C;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"], input[type="email"], textarea {
     padding:0.5rem 0;
     background:none;
     border:none;
@@ -106,7 +106,7 @@ header {
     &.schedule {
         background-color: #00e676;
     }
-    &.sign-in {
+    &.sign-in, &.request-access {
          background-color:#3f51b5;
     }
     

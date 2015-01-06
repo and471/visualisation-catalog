@@ -91,6 +91,10 @@
                 templateUrl: 'partials/sign-in.html',
                 controller: 'signInController',
             }).
+            when('/request-access', {
+                templateUrl: 'partials/request-access.html',
+                controller: 'requestAccessController',
+            }).
             otherwise({
                 redirectTo: '/'
             });
