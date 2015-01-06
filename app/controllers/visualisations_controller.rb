@@ -202,13 +202,11 @@ class VisualisationsController < ApplicationController
     
         Thread.new do
         
-          puts "Start"
-          puts $sc_path
-          puts $id
+          puts "START(#{$id}): extracting bgcolour from #{$sc_path}"
         
           bgcolour = getBackgroundColor($sc_path)
           
-          puts "Done with #{$id}"
+          puts "START(#{$id}): extracting bgcolour from #{$sc_path}"
           
           v = Visualisation.find_by_id($id)
           v.bgcolour = bgcolour
