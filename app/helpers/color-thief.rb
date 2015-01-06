@@ -25,11 +25,11 @@ def getBackgroundColor(filePath)
     pixel_count = img.columns * img.rows
 
     quality = 10
-    if (pixel_count > 500000)  quality = 7
-    if (pixel_count > 1000000) quality = 4
-    if (pixel_count > 1500000) quality = 1
+    quality = 7 if (pixel_count > 500000)
+    quality = 4 if (pixel_count > 1000000) 
+    quality = 1 if (pixel_count > 1500000) 
     
-    if (pixel_count > 2000000) return "rgb(255,255,255)"
+    return "rgb(255,255,255)" if (pixel_count > 2000000)
 
     color = ctx[:ColorThiefGetColor].call(canvasPixels, pixel_count, quality)
     color_string = "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
