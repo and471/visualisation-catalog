@@ -5,6 +5,11 @@ class CommentsController < ApplicationController
   # GET /comments.json
   def index
     @comments = Comment.all
+
+    if params[:visid] != nil
+      v = Visualisation.find_by_id(params[:visid])
+      @comments = v.comments
+    end
   end
 
   # GET /comments/1
@@ -25,6 +30,33 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
+
+    if params[:authentication_key] == nil
+      render status: :anauthorized
+    end
+
+    current_user.comments << @comment
+    @comment.user = current_user
+
+    if params[:visid] == nil
+      respond_to do |format|
+        format.json { render json: "No visid given", status: :unprocessable_entity }
+        return
+      end
+    end
+
+    v = Visualisation.find_by_id(params[:visid])
+
+    if v == nil
+      respond_to do |format|
+        format.json { render json: "No such visualisation", status: :unprocessable_entity }
+        return
+      end
+    end
+
+    v.comments << @comment
+    @comment.visualisation = v
+
 
     respond_to do |format|
       if @comment.save
