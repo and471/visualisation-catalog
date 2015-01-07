@@ -26,31 +26,35 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="card view">
+            <div class="card view" id="submit-comment" ng-init="comment={ }" ng-submit="submitComment()" name="submit-comment-form">
                     <div class="comment">
                         <div class="top">
                             <div class="left">
-                                <img align="left" class="avatar" ng-src="{[{commentsimage}]}"/>
+                                <img align="left" class="avatar" ng-src="{[{currentAvatar}]}"/>
                             </div>
-                            <textarea placeholder="Comment" class="inputtext" rows="4" wrap="hard"></textarea>
+                            <textarea
+                               placeholder="Comment" fasfasd
+                               ng-model="comment.content"
+                               id="name"
+                               class="inputtext" rows="4" wrap="hard"/>
                         </div>
                         <div class="bottom" style="text-align: right;">
-                            <button class="post" >POST</button>
+                            <input type="submit" id="submit" value="POST" class="post"/>
                         </div>
                     </div>                        
             </div>
             <div class="card view">
-                <div class="comment">
+                <!--div class="comment">
                     <div class="top">
                         <div class="left">
-                            <img align="left" class="avatar" ng-src="{[{commentsimage}]}"/>
+                            <img align="left" class="avatar" ng-src="{[{comments.image}]}"/>
                         </div>
-                        <div class="commenttext">{[{commentstext}]}</div>
+                        <div class="commenttext">{[{comments.text}]}</div>
                     </div>
                     <div class="bottom posted">
-                        Posted on {[{commentsdate}]}
+                        Posted on {[{comments.date}]}
                     </div>                
-                </div>               
+                </div-->               
                 
             </div>                
                 

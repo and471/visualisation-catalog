@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :comments
+
   get 'timeslots/test'
 
   get '/visualisations/:visid/vote' => 'visualisations#vote'

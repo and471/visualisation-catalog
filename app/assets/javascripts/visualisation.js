@@ -1,7 +1,8 @@
 
-app.controller('visualisationController', function ($scope, $rootScope, Visualisation, $routeParams, $location) {
+app.controller('visualisationController', function ($scope, $rootScope, Visualisation, Comment, $routeParams, $location) {
     $rootScope.page = {title: "Visualisations",  headerClass:"visualisations", searchEnabled : false, class:"view-visualisation"}
-
+    $scope.currentUser = $rootScope.user.name;
+    $scope.currentAvatar = $rootScope.user.avatar;
     var params = { id : $routeParams.id };
     if ($rootScope.user != null) {
         params.authentication_key = localStorage.getItem("authentication_key");   
@@ -15,11 +16,6 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
         }
     );
     
-    $scope.commentsname = "Joe Bloggs";
-    $scope.commentsimage = "http://api.randomuser.me/portraits/thumb/men/88.jpg";
-    $scope.commentstext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-    $scope.commentsdate = "10/11/2014";
-
     $scope.thank = function() {
         showToast("Thanks for liking this visualisation!");      
     }
@@ -32,6 +28,17 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
                 $scope.thank();
             }                             
         );   
+    }
+    
+    $scope.submitComment = function() {
+
+         return Comment.new({ comment: $scope.comment,
+                              authentication_key:localStorage.getItem("authentication_key"), 
+                              visid : $routeParams.id
+                              }
+                            ); 
+            // Success
+    
     }
     
     if ($location.search().voted) {

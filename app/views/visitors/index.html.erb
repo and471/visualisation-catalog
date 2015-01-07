@@ -144,6 +144,15 @@
             });
     }]);
 
+    app.factory('Comments', ['$resource',
+        function($resource){
+            return $resource('comments/:id.json', {id : "@id"}, {
+                query: { method:'GET', url:'comments.json', isArray:true },
+                approve: { method:'PATCH', url:'comments/:id/approve.json'},
+                reject: { method:'PATCH', url:'comments/:id/reject.json'}
+            });
+    }]);
+
     app.factory('Timeslot', ['$resource',
         function($resource){
             return $resource('timeslots', {}, {
