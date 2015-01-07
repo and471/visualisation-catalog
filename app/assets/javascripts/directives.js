@@ -47,3 +47,26 @@ app.directive('colorThief', function() {
         }
     }; 
 }); 
+
+app.directive('animateDelay', function() {
+    return {
+        link: function(scope, element, attrs) {
+            $(element).css("transition-delay", parseInt(attrs.animateDelay) * 100 + "ms")
+        }
+    }; 
+}); 
+
+app.directive('animateAfterRender', function() {
+  return function(scope, element, attrs) {
+    if (scope.$last){
+        performAnimation(".animate");
+    }
+  };
+ })
+
+function performAnimation(className) {
+    setTimeout(function() { 
+        $(className).addClass("perform")
+    }, 500);
+}
+

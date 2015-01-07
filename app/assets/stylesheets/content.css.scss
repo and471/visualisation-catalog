@@ -1,6 +1,22 @@
 @import "variables";
 @import "mixins";
 
+/* Grow animation */
+.animate {
+    transition-property: all;
+    transition-timing-function: ease-out;
+    transition-duration: 400ms;
+
+
+    &.grow {
+        transform: scale( 0 );
+        
+        &.perform {
+            transform: scale( 1 );
+        }
+    }
+
+}
 
 .card {
     background:white;

@@ -505,23 +505,8 @@ section.viewport {
 }
 
 .page {
-    @include animated(1s);
-}
+    @include animated(2s);
 
-.page.ng-leave {
-    opacity:1
-}
-
-.page.ng-leave-active {
-    opacity:0;
-}
-
-.page.ng-enter {
-    opacity:0;
-}
-
-.page.ng-enter-active {
-    opacity:1;
 }
 
 .page {

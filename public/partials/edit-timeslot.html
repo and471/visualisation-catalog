@@ -2,7 +2,7 @@
     <div class="row">
 
         <div class="col-sm-8" style="height:100%">
-            <div id="edit-timeslot" class="card">
+            <div id="edit-timeslot" class="card animate grow">
                 <div class="header">
                     <div class="day">{[{formatDay(timeslot.start)}]}</div>
                     <div class="time">{[{formatTime(timeslot.start, timeslot.end)}]}</div>
@@ -58,7 +58,7 @@
         
         <div class="col-sm-4" style="height:100%; padding-left: 0; padding-right: 0;">
             <div id="content-selector">
-                <div class="controls card">
+                <div class="controls card animate grow" animate-delay=1>
                     <div class="search">
                         <input ng-model="contentQuery" 
                                ng-model-options="{debounce:500}"
@@ -80,7 +80,7 @@
                     <div id="content">
                         <div draggable="true" 
                              ng-repeat="contentItem in content | filter:contentQuery | filterVisualisations:showVisualisations | filterAdverts:showAdverts"
-                             content-item data="contentItem">
+                             content-item data="contentItem" class="animate grow" animate-delay="{[{2 + $index}]}" animate-after-render>
                         </div>
                     </div>
                 </div>

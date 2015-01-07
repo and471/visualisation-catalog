@@ -3,7 +3,7 @@
 
         <div id="submit-visualisation-col" class="col-sm-8">
             <!-- this form holds the data -->
-            <form id="submit-visualisation" class="card" ng-init="visualisation={ }" ng-submit="submitAdvert()" name="submit-vis-form">
+            <form id="submit-visualisation" class="card animate grow" ng-init="visualisation={ }" ng-submit="submitAdvert()" name="submit-vis-form">
             <!-- the names of the elements are IMPORTANT, they needs to be modelName[fieldName] for rails to pick them up and insert into the right place  -->
 
                 <div class="content">
@@ -51,7 +51,7 @@
         </div>
 
         <div id="guidelines" class="col-sm-4">
-            <div class="card guideline blue">
+            <div class="card guideline blue animate grow" animate-delay=1>
                 <div class="title">Content Types</div>
                 <div class="item">
                     <div class="heading">Image (PNG, JPG)</div>
@@ -64,7 +64,7 @@
                 </div>
             </div>
             
-            <div class="card guideline yellow">
+            <div class="card guideline yellow animate grow" animate-delay=2>
                 <div class="title">Visualisation Guidelines</div>
                 <div class="item">
                     <div class="heading">Web Content</div>

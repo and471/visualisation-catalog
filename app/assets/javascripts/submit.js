@@ -38,6 +38,8 @@ app.controller('submitAdvertController', function($scope, $rootScope, $route, $l
           $location.path('/');
         }
     }
+    
+    performAnimation(".animate");
 });
 
 app.controller('submitVisualisationController', function($scope, $rootScope, $route, $location) {
@@ -87,6 +89,8 @@ app.controller('submitVisualisationController', function($scope, $rootScope, $ro
 
       
     }
+    
+    performAnimation(".animate");
 });
 
 function submit(vis_type) {}

@@ -106,6 +106,8 @@ app.controller('scheduleController', function($scope, $rootScope, $location, Tim
     $scope.startOfWeek = moment().startOf('isoweek');
     
     $scope.scrolled = false;
+    
+    performAnimation(".animate");
 });
 
 app.controller('editTimeslotController', function($scope, $rootScope, $routeParams, $location, Visualisation, Timeslot, Programme) {
@@ -233,7 +235,7 @@ app.controller('editTimeslotController', function($scope, $rootScope, $routePara
         }
     );
     
-    
+    performAnimation(".animate");
 });
 
     

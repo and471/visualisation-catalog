@@ -41,6 +41,8 @@ app.controller('moderateController', function(Visualisation, $scope, $rootScope,
 	
 	$scope.getContentToModerate();
 
+    performAnimation(".animate");
+
 });
 
 function formatContentType(content_type) {

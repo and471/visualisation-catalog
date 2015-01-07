@@ -38,5 +38,5 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
         $scope.thank();  
     }
     
-
+    performAnimation(".animate");
 });

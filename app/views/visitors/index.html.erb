@@ -154,11 +154,15 @@
     app.controller('masonController', function($scope, $rootScope, Visualisation, $routeParams, $location) {
         $rootScope.page = {title: "Visualisations",  headerClass:"visualisations", searchEnabled : true, class:"visualisations"}
     
-        $scope.visItems = Visualisation.query($location.search())
+        $scope.visItems = []
         
         $scope.goToVisualisation = function(item) {
             $location.path("/visualisations/"+ item.id);
         }
+        
+        setTimeout(function() { 
+            $scope.visItems = Visualisation.query($location.search())
+        }, 500);
     });
     
     function showToast(msg, duration) {

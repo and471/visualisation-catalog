@@ -1,7 +1,7 @@
 <section class="container-fluid" ng-controller="visualisationController"> 
     <div class="row" ng-if="visualisation != null">
         <div id="details" class="col-sm-6" class="card vis" style="height:100%;">
-            <div class="view card">
+            <div class="view card animate grow">
                 <div class="visualisation">
                     <a ng-href="{[{ visualisation.link }]}" class="top" style="background-image: url({[{ visualisation.screenshot }]});"></a>
                     <div class="header" color-thief color="{[{visualisation.bgcolour}]}">
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="card view">
+            <div class="card view animate grow" animate-delay=1>
                     <div class="comment">
                         <div class="top">
                             <div class="left">
@@ -39,7 +39,7 @@
                         </div>
                     </div>                        
             </div>
-            <div class="card view">
+            <div class="card view animate grow" animate-delay=2>
                 <div class="comment">
                     <div class="top">
                         <div class="left">

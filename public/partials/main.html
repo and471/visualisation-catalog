@@ -1,7 +1,7 @@
 <div ng-controller="masonController" id="masonry" horizontal-scroll>
-    <div class="grid-item card" ng-repeat="item in visItems | filter:searchQuery"
+    <div class="grid-item card animate grow" ng-repeat="item in visItems | filter:searchQuery"
          ng-class="{'large' : ($index % 6 < 3 && $index % 3 == 0) || ($index % 6 >= 3 && $index % 3 == 2),
-                    'small' : ($index % 6 < 3 && $index % 3 != 0) || ($index % 6 >= 3 && $index % 3 != 2)}" >
+                    'small' : ($index % 6 < 3 && $index % 3 != 0) || ($index % 6 >= 3 && $index % 3 != 2)}"  animate-delay="{[{$index}]}" animate-after-render>
             <div class="content" ng-click="goToVisualisation(item)">
                 <div class="img" style="background-image: url({[{ item.screenshot }]})"></div>
                 <div class="header" color-thief color="{[{item.bgcolour}]}">{[{ item.name }]}</div>

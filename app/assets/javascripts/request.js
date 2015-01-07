@@ -25,4 +25,6 @@ app.controller('requestAccessController', function($scope, $rootScope, $http, $r
                 showToast("Failed to send request (" + status + "). Please try again later.")
             });
     }
+    
+    performAnimation(".animate");
 });

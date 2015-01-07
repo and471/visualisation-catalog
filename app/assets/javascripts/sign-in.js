@@ -29,4 +29,6 @@ app.controller('signInController', function($scope, $rootScope, $http, $routePar
                 $scope.signInLabel = "Sign In"
             });
     }
+    
+    performAnimation(".animate");
 });
