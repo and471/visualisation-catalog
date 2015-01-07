@@ -27,16 +27,16 @@
         </div>
         <div class="col-sm-6">
             <div class="card view">
-                <form id="submit-comment" ng-init="comment={}" ng-submit="submitComment()" name="submit-comment-form">
+                <form id="submit-comment" ng-submit="submitComment()" name="submit-comment-form">
                     <div class="comment">
                         <div class="top">
                             <div class="left">
                                 <img align="left" class="avatar" ng-src="{[{currentAvatar}]}"/>
                             </div>
                             <textarea
-                               placeholder="Comment" fasfasd
-                               ng-model="comment.content"
-                               id="name"
+                               placeholder="Comment"
+                               ng-model="comment_content"
+                               id="content"
                                class="inputtext" rows="4" wrap="hard"/>
                         </div>
                         <div class="bottom" style="text-align: right;">
@@ -46,17 +46,17 @@
                 </form>
             </div>
             <div class="card view">
-                <!--div class="comment">
+                <div class="comment" ng-repeat="c in commentItems">
                     <div class="top">
                         <div class="left">
-                            <img align="left" class="avatar" ng-src="{[{comments.image}]}"/>
+                            <img align="left" class="avatar" ng-src="{[{c.user.avatar}]}"/>
                         </div>
-                        <div class="commenttext">{[{comments.text}]}</div>
+                        <div class="commenttext">{[{c.text}]}</div>
                     </div>
                     <div class="bottom posted">
-                        Posted on {[{comments.date}]}
+                        Posted on {[{c.date}]}
                     </div>                
-                </div-->               
+                </div>               
                 
             </div>                
                 

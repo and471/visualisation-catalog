@@ -31,24 +31,22 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
         );   
     }
 
-
     
     $scope.submitComment = function() {
-        $scope.$watch('comment.content', function (newValue, oldValue) {
-            if(newValue === "")
-                $scope.comment.content = null;
-        });
         
         $scope.postLabel = "POSTING...";
-        return Comment.new({ comment: $scope.comment,
-                             authentication_key:localStorage.getItem("authentication_key"), 
-                             visid : $routeParams.id
-                           }),
-                $location.path('/');
-                             
+        console.log($scope.comment_content);
+        Comment.new({ comment: { content : $scope.comment_content },
+                         authentication_key:localStorage.getItem("authentication_key"), 
+                         visid : $routeParams.id
+                       }),
             // Success
-    
+            function() {
+                $scope.commentItems = Comment.query($routeParams.id);
+                $scope.comment_content = "";
+            }
     }
+    //$scope.commentItems = Comment.query;
     
     if ($location.search().voted) {
         $scope.thank();  
