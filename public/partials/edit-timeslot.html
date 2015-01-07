@@ -1,0 +1,94 @@
+<section class="container-fluid" ng-controller="editTimeslotController">
+    <div class="row">
+
+        <div class="col-sm-8" style="height:100%">
+            <div id="edit-timeslot" class="card">
+                <div class="header">
+                    <div class="day">{[{formatDay(timeslot.start)}]}</div>
+                    <div class="time">{[{formatTime(timeslot.start, timeslot.end)}]}</div>
+                </div>
+                <div id="edit">
+                    <div id="fields">
+                        <div class="editable" ng-if="activeProgramme != null">
+                            <div class="data-row">
+                                <div class="label_">Number of Screens</div>
+                                <div class="control screens" slider min=1 max=4 step=1 val={[{activeProgramme.screens}]} field="screens"></div>
+                            </div>                            
+                            <div class="data-row">
+                                <div class="label_">Duration Priority</div>
+                                <div class="control priority" slider min=1 max=10 step=1 val={[{activeProgramme.priority}]} field="priority"></div>
+                            </div>                            
+                            <div class="remove" ng-click="removeProgramme(activeProgramme.id)">Remove from timeslot</div>
+                        </div>
+                        <div class="user-provided" ng-if="activeProgramme != null">
+                            <div class="data-row">
+                                <div class="title">{[{formatContentType(activeProgramme.visualisation.vis_type)}]}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="title">Run Time</div>
+                                <div class="data">{[{activeProgramme.visualisation.min_playtime / 60}]} mins</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="title">Preferred number of screens</div>
+                                <div class="data">{[{activeProgramme.screens}]}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="title">Notes</div>
+                                <div class="data">{[{activeProgramme.notes}]}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll">
+                        <div class="content" content-drop-target>
+                            <div
+                             ng-repeat="programme in programmes"
+                             content-item data="programme.visualisation"
+                             ng-click="setActiveProgramme(programme)"
+                             ng-class="{'active': programme == activeProgramme}"
+                             priority="programme.priority">
+                            </div>   
+                            <div ng-if="programmes.length == 0" id="drag-here">
+                                To show content in this timeslot, drag it here
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-4" style="height:100%; padding-left: 0; padding-right: 0;">
+            <div id="content-selector">
+                <div class="controls card">
+                    <div class="search">
+                        <input ng-model="contentQuery" 
+                               ng-model-options="{debounce:500}"
+                               type="text"/>
+                    </div>
+                    <div class="content-type">
+                        <div class="toggle-button" 
+                             id="visualisations"
+                             ng-click="showVisualisations = !showVisualisations"
+                             ng-class="{'pressed' : showVisualisations}">Visualisations</div>                       
+                        <div class="toggle-button" 
+                             id="adverts"
+                             ng-click="showAdverts = !showAdverts"
+                             ng-class="{'pressed' : showAdverts}">Adverts</div>
+                    </div>
+                </div>
+                
+                <div class="scroll">
+                    <div id="content">
+                        <div draggable="true" 
+                             ng-repeat="contentItem in content | filter:contentQuery | filterVisualisations:showVisualisations | filterAdverts:showAdverts"
+                             content-item data="contentItem">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+</script>

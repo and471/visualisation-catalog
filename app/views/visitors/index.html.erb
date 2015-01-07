@@ -1,3 +1,4 @@
+<div class="toast"></div>
 <div id="menu-shadow" ng-init="menuVisible = false" ng-show="menuVisible"></div>
 <header ng-class="page.headerClass">
     <div id="menu-button" ng-click="menuVisible = !menuVisible" >
@@ -5,10 +6,10 @@
     </div>
     
     <div id="breadcrumb">
-        <div class="title">{[{page.title}]}</div>
+        <div class="title" ng-cloak>{[{page.title}]}</div>
         <div ng-show="page.secondaryTitle">
             <div class="arrow"></div>
-            <div class="title secondary">{[{page.secondaryTitle}]}</div>
+            <div class="title secondary" ng-cloak>{[{page.secondaryTitle}]}</div>
         </div>
     </div>
     
@@ -36,7 +37,19 @@
 
 <script>       
     
-    var app = angular.module("app", ['ngRoute', 'ngAnimate', 'ngResource', 'truncate']);
+    // From http://stackoverflow.com/questions/3115982/how-to-check-javascript-array-equals
+    function arraysEqual(a, b) {
+      if (a === b) return true;
+      if (a == null || b == null) return false;
+      if (a.length != b.length) return false;
+
+      for (var i = 0; i < a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }
+    
+    var app = angular.module("app", ['ngRoute', 'ngAnimate', 'ngResource', 'truncate', 'flow']);
 
     app.config(function($interpolateProvider) {
           $interpolateProvider.startSymbol('{[{');
@@ -48,11 +61,11 @@
             $routeProvider.
             when('/', {
                 templateUrl: 'partials/main.html',
-                controller: 'masonController'
+                controller: 'masonController',
             }).
             when('/visualisations/:id', {
                 templateUrl: 'partials/visualisation.html',
-                controller: 'mainController',
+                controller: 'visualisationController',
             }).
             when('/submit/advert', {
                 templateUrl: 'partials/submit-advert.html',
@@ -70,12 +83,40 @@
                 templateUrl: 'partials/schedule.html',
                 controller: 'scheduleController',
             }).
+            when('/schedule/timeslot/:id', {
+                templateUrl: 'partials/edit-timeslot.html',
+                controller: 'editTimeslotController',
+            }).            
+            when('/sign-in', {
+                templateUrl: 'partials/sign-in.html',
+                controller: 'signInController',
+            }).
+            when('/request-access', {
+                templateUrl: 'partials/request-access.html',
+                controller: 'requestAccessController',
+            }).
             otherwise({
                 redirectTo: '/'
             });
       }]);
-
-    app.controller('mainController', function($scope, $rootScope, $route) {
+    
+    app.controller('mainController', function($scope, $rootScope, $route, User) {
+        $rootScope.user = null;
+        
+        $rootScope.logIn = function() {
+            User.getCurrent({authentication_key:localStorage.getItem("authentication_key")}, 
+                // Success
+                function(user) {
+                    $rootScope.user = user;
+                },
+                // Failure
+                function() {
+                    console.log("ERROR")
+                    localStorage.removeItem("authentication_key");
+                    $rootScope.user = null;
+                }       
+            );
+        }
 
         $scope.clearSearch = function() { jQuery("#search input").val(""); }
             
@@ -88,152 +129,57 @@
                 $("#search input").focus()
             }, 500);
         }
-        
+
+        if (localStorage.getItem("authentication_key") != null) {
+            $rootScope.logIn();
+        }
     });
-    
         
     app.factory('Visualisation', ['$resource',
         function($resource){
-            return $resource('visualisations/:id.json', {visId : "@id"}, {
-                query: { method:'GET', url:'visualisations.json', isArray:true},
+            return $resource('visualisations/:id.json', {id : "@id"}, {
+                query: { method:'GET', url:'visualisations.json', isArray:true },
                 approve: { method:'PATCH', url:'visualisations/:id/approve.json'},
                 reject: { method:'PATCH', url:'visualisations/:id/reject.json'}
             });
     }]);
+
+    app.factory('Timeslot', ['$resource',
+        function($resource){
+            return $resource('timeslots', {}, {
+                query: { method:'GET', isArray:true },
+            });
+    }]);
     
-    app.controller('menuController', function($scope, $rootScope, $route) {
-        
-        $scope.user = { name: "Joe Bloggs", image: "http://api.randomuser.me/portraits/thumb/men/88.jpg", admin:true };
-
-        $scope.visLinks = [{name : "Visualisations", url : "/", img:"visualisations.png"},
-                           {name : "New", url : "", img:"ic_new_releases_black_24dp.png"},
-                           {name : "Highest Rated", url : "", img : "ic_grade_black_24dp.png"},
-                           {name : "Mine", url : "", img:"ic_person_black_24dp.png"}]
-        
-        $scope.contentLinks = [{name : "Submit Visualisation", class:"submit vis", url : "/submit/visualisation", img:"ic_add_box_black_24dp.png"},
-                               {name : "Submit Advert", class : "submit advert", url : "/submit/advert", img:"ic_add_box_black_24dp.png"}]
-        
-        $scope.adminLinks = [{name : "Moderate Content", class:"moderate", url : "/moderate", img:"ic_check_box_black_24dp.png"},
-                             {name : "Schedule Content", class : "schedule", url : "/schedule", img:"ic_timer_black_24dp.png"}]
-
-        $scope.links = $scope.visLinks.concat($scope.contentLinks).concat($scope.adminLinks);
-        
-        $scope.selected = $scope.links[0];
-                    
-        $rootScope.$on('$routeChangeSuccess', function(next, current) { 
-            for (route in $route.routes) {
-                if ($route.routes[route].templateUrl == current.loadedTemplateUrl) {
-                    $scope.selectedUrl = $route.routes[route].originalPath;
-                    break;
-                }
-            }
-         });
-
-    });
-
-    app.controller('submitAdvertController', function($scope, $rootScope, $route) {
-        $rootScope.page = {title: "Submit Advert", headerClass:"submit-advert", searchEnabled : false, class:"submit"}
-    });
-
-    app.controller('submitVisualisationController', function($scope, $rootScope, $route) {
-        $rootScope.page = {title: "Submit Visualisation",  headerClass:"submit-visualisation", searchEnabled : false, class:"submit"}
-    });
-
-    app.controller('masonController', function($scope, $rootScope, Visualisation) {
+    app.controller('masonController', function($scope, $rootScope, Visualisation, $routeParams, $location) {
         $rootScope.page = {title: "Visualisations",  headerClass:"visualisations", searchEnabled : true, class:"visualisations"}
     
-        $scope.visItems = Visualisation.query()
+        $scope.visItems = Visualisation.query($location.search())
+        
+        $scope.goToVisualisation = function(item) {
+            $location.path("/visualisations/"+ item.id);
+        }
     });
     
-    app.controller('scheduleController', function($scope, $rootScope) {
-        $rootScope.page = {title: "Schedule Content",  headerClass:"schedule", class:"schedule"}
+    function showToast(msg, duration) {
+        duration = duration || 5000;
+        
+        $(".toast").fadeOut();
+        
+        setTimeout( function() {
+            $(".toast").html(msg);
+            $(".toast").fadeIn();
+        }, 500);
+        
+        if (duration != -1) {
+            setTimeout( function() {
+                $(".toast").fadeOut();
+            }, duration);
+        }
+    }    
     
-        
-    });
-
-    app.controller('moderateController', function(Visualisation, $scope, $rootScope) {
-        $rootScope.page = {title: "Moderate Content",  headerClass:"moderate", searchEnabled : true, class:"moderate"}
-        
-        $scope.content = Visualisation.query({needsModeration : 'true', expandUser: 'true'})
-        
-        $scope.fadeOutRow = function(childElement, item) {
-            var row = $(childElement).parents("tr");
-            row.animate({opacity: 0}, 250);
-            setTimeout(function() { 
-                // Add in another element which we can animate, so table rows do not 'jump' up
-                var shrinker = $("<div/>").addClass("shrinker").css({width : "100%", height : row.css("height")});
-                $(shrinker).insertAfter(row);
-                row.remove(); 
-                shrinker.slideUp(250);
-                
-                setTimeout(function() { 
-                    shrinker.remove();
-                    
-                    // Remove content item from content
-                    $scope.content.splice($scope.content.indexOf(item), 1);
-                    
-                    $scope.$apply();
-                }, 250);
-            }, 250)
-        }
-        
-        
-        $scope.approve = function(event, item) {
-            Visualisation.approve({id : item.id})
-            $scope.fadeOutRow(event.target);
-        }
-        
-        $scope.reject = function(event, item) {
-            Visualisation.reject({id : item.id})
-            $scope.fadeOutRow(event.target, item);
-        }
-
-    });
-    
-    app.directive('horizontalScroll', function() {
-    return {
-        link: function(scope, element, attrs) {
-            $(element).mousewheel(function(event, delta) {
-              this.scrollLeft -= (delta * 30);
-              event.preventDefault();
-           });
-        }
-    }});
-        
-    app.directive('colorThief', function() {
-        return {
-            scope: {item:'='},
-
-            controller: ['$scope', function($scope){
-                $scope.setBackground = function(element, item) {
-                    $(element).css("background-color", item.bg);
-                    if (item.bgBright) {
-                        $(element).addClass("bright-background");
-                    }   
-                };
-            }],
-
-            link: function(scope, element, attrs) {
-                if (scope.item.bg == undefined) {               
-                    var img = new Image();
-                    img.src = scope.item.link;
-
-                    $(img).on('load', function() {               
-                        var color = new ColorThief().getColor(img);
-
-
-                        var brightness = Math.sqrt( .241 * Math.pow(color[0], 2) + 
-                                                    .691 * Math.pow(color[1], 2) + 
-                                                    .068 * Math.pow(color[2], 2));
-
-                        scope.item.bg = "rgb(" + color + ")";
-                        scope.item.bgBright = brightness > 255/2;
-                        scope.setBackground(element, scope.item);
-                    });
-                } else {
-                    scope.setBackground(element, scope.item);   
-                }
-            }
-        }; 
-    }); 
+    function hideToast() {
+        $(".toast").fadeOut();
+    }
 </script>
+

@@ -1,13 +1,17 @@
-<h1>Timeslots#test</h1>
+<h3> Playout Scheduling Result </h3>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+Timeslot ID: <%= @timeslotid %> </p>
+Start Time: <%= @start_time %> </br>
+End Time: <%= @end_time %> </p>
 
-  <tbody>
-    <%= @test.id %>
-  </tbody>
-</table>
+<% @test.each do |testElem| %>
+   Start time: <%= testElem.start_time %> &nbsp;
+   End time: <%= testElem.end_time %> &nbsp;
+   Start screen: <%= testElem.start_screen %> &nbsp;
+   End screen: <%= testElem.end_screen %> &nbsp;
+   Visualisation ID: <%= testElem.visualisation_id %> </br>
+<% end %>
+
+Count: <%= @count %>
+
+<script>$("body").removeAttr("ng-cloak")</script>

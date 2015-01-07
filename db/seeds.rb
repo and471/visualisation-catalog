@@ -6,42 +6,48 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+user = User.find_by_username("chl312")
+if user != nil
+  user.isAdmin = true
+  user.save!
+end
+
+user = User.find_by_username("tjt12")
+if user != nil
+  user.isAdmin = true
+  user.save!
+end
+ 
+
 if Visualisation.all.empty?
-  Visualisation.create([
-    {:name => "Milan", 
-       :link => "/assets/dummy/milan.png", 
-       :approved => true,
-       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}, 
-      {:name => "Green",
-       :approved => true,
-       :link => "/assets/dummy/green.png",
-       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."},
-      {:name => "Pink", 
-       :approved => true,
-       :link => "/assets/dummy/pink.png",
-       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}, 
-      {:name => "Power", 
-       :link => "/assets/dummy/power.png",
-       :approved => true,
-       :isDefault => true,
-       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}, 
-    ])
-  for i in 1..5
-    Visualisation.create([
-      {:name => "Milan", 
-       :link => "/assets/dummy/milan.png", 
-       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}, 
-      {:name => "Green",
-       :link => "/assets/dummy/green.png",
-       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."},
-      {:name => "Pink", 
-       :link => "/assets/dummy/pink.png",
-       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}, 
-      {:name => "Power", 
-       :link => "/assets/dummy/power.png",
-       :isDefault => true,
-       :description => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}, 
-    ])
+  user = User.find_by_username("chl312")
+  if user != nil
+    visDefault = 
+      Visualisation.create([
+        {:name => "Logo",
+         :approved => true,
+         :vis_type => :vis,
+         :content_type => :file,
+         :link => "",
+         :content => "/sample_visualisations/DSI.PNG",
+         :description => "Logo of Data Science Institute",
+         :screenshot => File.open("sample_visualisations/DSI.PNG"),
+         :isDefault => true,
+         :min_playtime => Const.SECONDS_IN_UNIT_TIME}
+      ])
+    visNotDefault =
+      Visualisation.create([
+       {:name => "Logo",
+        :approved => true,
+        :vis_type => :vis,
+        :content_type => :file,
+        :link => "",
+        :content => "/sample_visualisations/DSI.PNG",
+        :description => "Logo of Data Science Institute",
+        :screenshot => File.open("sample_visualisations/DSI.PNG"),
+        :min_playtime => Const.SECONDS_IN_UNIT_TIME}
+      ])
+    user.visualisations << [visDefault, visNonDefault]
   end
 end
-               
+ 

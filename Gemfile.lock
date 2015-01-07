@@ -1,6 +1,6 @@
 GIT
   remote: https://gitlab.doc.ic.ac.uk/tjt12/devise-kerberos-authenticatable.git
-  revision: ed383440a8f9f7368ae88f12e91daf3b3486d7dd
+  revision: cbe844fe3d378cd6f2457b11f7d0765fb01ffe22
   specs:
     devise-kerberos-authenticatable (0.1.0)
       devise (~> 3.1.1)
@@ -9,6 +9,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    PriorityQueue (0.1.2)
     actionmailer (4.1.6)
       actionpack (= 4.1.6)
       actionview (= 4.1.6)
@@ -47,7 +48,7 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.3.0.1)
+    bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
     builder (3.2.2)
     carrierwave (0.10.0)
@@ -75,7 +76,7 @@ GEM
     execjs (2.2.2)
     hike (1.2.3)
     i18n (0.6.11)
-    jbuilder (2.2.4)
+    jbuilder (2.2.5)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (3.1.2)
@@ -86,7 +87,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
-    minitest (5.4.2)
+    minitest (5.4.3)
     multi_json (1.10.1)
     orm_adapter (0.5.0)
     quiet_assets (1.0.3)
@@ -104,7 +105,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.1.6)
       sprockets-rails (~> 2.0)
-    rails_layout (1.0.23)
+    rails_layout (1.0.24)
     railties (4.1.6)
       actionpack (= 4.1.6)
       activesupport (= 4.1.6)
@@ -114,6 +115,7 @@ GEM
     rdoc (4.1.2)
       json (~> 1.4)
     ref (1.0.5)
+    rmagick (2.13.2)
     rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.2)
@@ -157,8 +159,6 @@ GEM
     thread_safe (0.3.4)
     tilt (1.4.1)
     timfel-krb5-auth (0.8)
-    turbolinks (2.5.1)
-      coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.5.3)
@@ -171,6 +171,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  PriorityQueue (~> 0.1.2)
   attribute-defaults
   better_errors
   binding_of_caller
@@ -184,11 +185,11 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.1.6)
   rails_layout
+  rmagick (= 2.13.2)
   rspec-rails
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   spring
   sqlite3
   therubyracer
-  turbolinks
   uglifier (>= 1.3.0)

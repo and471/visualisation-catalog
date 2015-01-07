@@ -1,30 +1,31 @@
 <section class="container-fluid" ng-controller="scheduleController">
     <div class="row">
 
-        <div class="col-sm-12">
+        <div class="col-sm-12" style="height:100%">
             <div id="schedule">
-                <div id="days">
-                    <div class="spacer">
-                        <div class="day" ng-repeat='day in ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]'>
-                            <div class="day-label">{[{day}]}</div>
-                        </div>
-                    </div>
+                <div id="week">
+                    <div class="navigate back" ng-click="previousWeek()"></div>
+                    <div id="week-span">{[{formatWeek(startOfWeek)}]}</div>
+                    <div class="navigate forward" ng-click="nextWeek()"></div>
                 </div>
-                <div id="timeslots">
-                    <div id="week">
-                        <div class="navigate back"></div>
-                        <div id="week-span">20TH OCTOBER - 27TH OCTOBER</div>
-                        <div class="navigate forward"></div>
-                    </div>
-                    <div class="scroll" horizontal-scroll>
-                        <div id="planner">
-                            <div id="axis"><canvas style="font-family: Roboto; width:100%; height:100%"></canvas></div>
-                            <div class="day" ng-repeat='day in ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]'>
-
+                <div class="wrapper">
+                    <div id="days">
+                        <div class="spacer">
+                            <div class="day" ng-repeat='day in days'>
+                                <div class="day-label">{[{getShortWeekdayName(day)}]}</div>
                             </div>
                         </div>
                     </div>
-
+                    <div id="timeslots">
+                        <div class="scroll" horizontal-scroll>
+                            <div id="planner">
+                                <div id="axis"><canvas style="font-family: Roboto; width:100%; height:100%"></canvas></div>
+                                <div id="fg">
+                                    <div class="day" ng-repeat='day in days' timeslot-editor start-of-week="{[{startOfWeek.format()}]}" day="{[{day}]}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,18 +35,16 @@
 <script src="/assets/moment.js?body=1"></script>
 <script>
 
+jQuery("#axis canvas").fillingCanvas();
+    
 function drawAxis() {
     var canvas = jQuery("#axis canvas").get(0)
-
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
     
     var width = canvas.width;
     var height = canvas.height;
+    var axisHeight = 50;
 
-    console.log(canvas.width)
-
-    var tickHeightLarge = Math.floor(height/3);
+    var tickHeightLarge = Math.floor(axisHeight/3);
     var tickHeightSmall = Math.floor(tickHeightLarge/2);
 
     var totalTicks = 24 * 6;
@@ -57,6 +56,10 @@ function drawAxis() {
     time.hour(0);  
 
     var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#f5f5f5";
+    ctx.fillRect(0, 0, width, axisHeight);
+    
+    
     var fontSize = 14;
     ctx.font = fontSize +"px Roboto";
 
@@ -64,30 +67,46 @@ function drawAxis() {
         var tickHeight = tickHeightSmall;
         ctx.fillStyle = "#c6c6c6";
 
+        // Style large ticks
         if (i % 6 == 0) {
             ctx.fillStyle = "#9e9e9e";
             tickHeight = tickHeightLarge;
         }
 
+        // Don't show very first tick/guideline
         if (i % totalTicks != 0) {
-            ctx.fillRect(Math.floor(tickSpacing * i), height - tickHeight, 1, tickHeight);
+            // Ticks
+            ctx.fillRect(Math.floor(tickSpacing * i), axisHeight - tickHeight, 1, tickHeight);
+            
+            // Guideline
+            ctx.fillRect(Math.floor(tickSpacing * i), axisHeight, 1, height - axisHeight);
         }
+        
 
+        
+        // Draw text
         if (i % 6 == 0) {
             if (i/6 % 24 != 0) {
                 var text = time.format("H:mm");
                 ctx.fillText(text, Math.floor(tickSpacing * i) - ctx.measureText(text).width/2, 
-                                   Math.floor(((height - tickHeightLarge) + fontSize)/2));
+                                   Math.floor(((axisHeight - tickHeightLarge) + fontSize)/2));
             }
             time.add(1, 'hour');   
         }
     }
 }
+    
+function resizeDays() {
+    jQuery(".day").css("height", parseInt(jQuery("#days .spacer").css("height"))/7 + "px")
+    jQuery(".day-label").css("line-height", parseInt(jQuery("#days .spacer").css("height"))/7 + "px")
+}
 jQuery(document).ready(function() {
-    drawAxis();  
+    drawAxis(); 
+    resizeDays();
 });
 jQuery(window).resize(function() {
     drawAxis();
+    resizeDays();
 });
 
 </script>

@@ -22,5 +22,5 @@ sudo docker run -it \
                 --name rails-test \
                 rails \
                 '/bin/bash' \
-                '-c' '-l' 'rake db:migrate && rake spec'
+                '-c' '-l' 'rake spec'
 

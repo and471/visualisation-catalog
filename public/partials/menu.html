@@ -2,31 +2,43 @@
 <nav>
     <section>
         <div class="item" ng-repeat="item in visLinks" 
-             ng-class="{active: item.url == selectedUrl}">
+             ng-class="{active: isCurrentMenuItem(item)}">
             <img class="icon" ng-src="/assets/{[{item.img}]}"/> 
             <a ng-href="#{[{item.url }]}">{[{item.name }]}</a>
+        </div>
+        <div class="item" ng-if="user != null"
+             ng-class="{active: isCurrentMenuItem({url:'/?userid='+ user.id})}">
+            <img class="icon" ng-src="/assets/ic_person_black_24dp.png"/> 
+            <a ng-href="#/?userid={[{user.id}]}">Mine</a>
         </div>
     </section>
     <section>
         <div class="item special {[{item.class}]}" ng-repeat="item in contentLinks"
-             ng-class="{active: item.url == selectedUrl}">
+             ng-class="{active: isCurrentMenuItem(item)}">
             <img class="icon" ng-src="/assets/{[{item.img}]}"/> 
             <a ng-href="#{[{item.url }]}">{[{item.name }]}</a>
         </div>
     </section>
-    <section>
+    <section ng-if="user != null && user.isAdmin">
         <div class="item special {[{item.class}]}" ng-repeat="item in adminLinks"
-             ng-class="{active: item.url == selectedUrl}">
+             ng-class="{active: isCurrentMenuItem(item)}">
             <img class="icon" ng-src="/assets/{[{item.img}]}"/> 
             <a ng-href="#{[{item.url }]}">{[{item.name }]}</a>
         </div>
     </section>
 
     <section class="bottom">
-        <div class="user item">
-            <img class="icon avatar" ng-src="{[{user.image}]}"/>
-            <div class="name">{[{user.name}]}</div>
-            <div class="icon logout"></div>
+        <div class="user item" style="display:block">
+            <div ng-if="user == null" style="display:flex">
+                <img class="icon avatar" src="/assets/default-user.png"/>
+                <a ng-href="{[{getSignInUrl()}]}" class="name">Sign in...</a>
+            </div>
+            
+            <div ng-if="user != null" style="display:flex">
+                <img class="icon avatar" ng-src="{[{user.avatar}]}"/>
+                <div class="name logged-in">{[{user.username}]}</div>
+                <div class="icon logout" ng-click="logOut()"></div>
+            </div>
         </div>
 
         <div class="legal">

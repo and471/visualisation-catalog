@@ -80,3 +80,8 @@ pickle-email-*.html
 
 # Temp files
 *~
+
+# Java class files
+*.class
+# Uploaded files
+public/uploads

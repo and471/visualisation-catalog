@@ -1,24 +1,60 @@
-<section class="container-fluid">
-    <div class="row">
-        <div id="details" class="col-sm-6">
-        
-            
-        
-        </div>
-        <div id="comments" class="col-sm-6">
-        
-            <div id="new-comment">
-                
-            </div>
-        
-            <div class="comment" ng-repeat="comment in comments">
-                <div class="top"></div>
-                <div class="bottom">
-                    <div class="date">Posted on {[{comment.date}]}</div>
-                    <div class="rating">{[{comment.rating}]} stars</div>
+<section class="container-fluid" ng-controller="visualisationController"> 
+    <div class="row" ng-if="visualisation != null">
+        <div id="details" class="col-sm-6" class="card vis" style="height:100%;">
+            <div class="view card">
+                <div class="visualisation">
+                    <a ng-href="{[{ visualisation.link }]}" class="top" style="background-image: url({[{ visualisation.screenshot }]});"></a>
+                    <div class="header" color-thief color="{[{visualisation.bgcolour}]}">
+                        {[{ visualisation.name }]}
+                        <div class="floating-badge" ng-click="vote()"><div class="icon like"></div></div>
+                    </div>
+                    <div class="description">{[{ visualisation.description }]}</div>
+                    <div class="bottom">
+                        <div class="owner">
+                            <img class="avatar" align="left" ng-src="{[{visualisation.author.avatar}]}"/>
+                            <div class="name">{[{visualisation.author.username}]}</div>
+                        </div>
+                        <div class="likes">
+                            <img class="icon" src="/assets/likes-grey.png"/>
+                            <div class="number">{[{visualisation.votes}]}</div>
+                        </div>
+                        <div class="link">
+                            <a href="{[{visualisation.link}]}">{[{visualisation.link}]}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
+        </div>
+        <div class="col-sm-6">
+            <div class="card view">
+                    <div class="comment">
+                        <div class="top">
+                            <div class="left">
+                                <img align="left" class="avatar" ng-src="{[{commentsimage}]}"/>
+                            </div>
+                            <textarea placeholder="Comment" class="inputtext" rows="4" wrap="hard"></textarea>
+                        </div>
+                        <div class="bottom" style="text-align: right;">
+                            <button class="post" >POST</button>
+                        </div>
+                    </div>                        
+            </div>
+            <div class="card view">
+                <div class="comment">
+                    <div class="top">
+                        <div class="left">
+                            <img align="left" class="avatar" ng-src="{[{commentsimage}]}"/>
+                        </div>
+                        <div class="commenttext">{[{commentstext}]}</div>
+                    </div>
+                    <div class="bottom posted">
+                        Posted on {[{commentsdate}]}
+                    </div>                
+                </div>               
+                
+            </div>                
+                
+            </div>
         </div>
     </div>
 </section>

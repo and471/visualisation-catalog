@@ -1,22 +1,75 @@
 class VisualisationsController < ApplicationController
-  before_action :set_visualisation, only: [:show, :edit, :update, :destroy]
+  require 'date'
+  require 'color-thief'
 
-  # GET /visualisations/:visid/schedule
-  def add_to_schedule
-    #TODO: add to current schedule array
+  before_action :set_visualisation, only: [:show, :edit, :update, :destroy]
+  
+  # GET /visualisations/:visid/vote
+  def vote
+    v = Visualisation.find_by_id(params[:visid])
+    if v != nil
+      v.votes = v.votes + 1
+      v.save!
+      redirect_to "#/visualisations/#{params[:visid]}?voted=true"
+      ## TODO: redirect to the main visualisatino page and show message
+      return
+    end
+
+    render :status => :internal_server_error, :text => "No such vis."
   end
+
+  def get_all
+    @visualisations = Visualisation.all
+    respond_to do |format|
+      format.json { render :index }
+    end
+  end
+
+  # TODO
+  # GET /visualisations/:visid/render_vis
+  def render_vis
+    v = Visualisation.find_by_id(params[:visid])
+    if v == nil
+      render :status => :internal_server_error, :text => "No such vis."
+      return
+      #TODO: could show default vis here
+    end
+
+    if v.content_type == "weblink"
+      redirect_to v.link
+      return
+    end
+
+    #else we have a visualisation
+    #TODO: render a html file that displays the vis
+
+  end
+
+
+  # GET /visualisations/current/:screennum
+  def current
+    now = DateTime.now
+    @session = PlayoutSession.where(
+      "start_time <= ? AND end_time >= ? AND start_screen <= ? AND end_screen >= ? ",
+      now, now, params[:screennum], params[:screennum]).first
+
+    @vis = @session.visualisation
+  end
+
+
 
   # PATCH /visualisations/:visid/approve
   def approve
+    puts current_user
     if current_user.isAdmin
       v = Visualisation.find_by_id(params[:visid])
       unless v == nil
         v.approved = true
         v.save!
       end
-    else 
-       redirect_to '/visualisations'
     end
+
+    render :nothing => true
   end
 
   
@@ -28,26 +81,54 @@ class VisualisationsController < ApplicationController
         v.delete
       end
     end
-
-    redirect_to '/visualisations'
-  end
+    render :nothing => true 
+ end
   
   # GET /visualisations
   # GET /visualisations.json
   def index
+
     @expandAuthor = params[:expandAuthor]
     @visualisations = Visualisation.all
+    if params[:needsModeration] != nil
+      if current_user == nil
+        render status: :unauthorized
+        return
+      end
+
+      if !current_user.isAdmin
+        render status: :unauthorized
+	return
+      end
+
+      @needsModeration = true   
+    else
+      @needsModeration = false
+    end
+
+    if params[:onlyVis] != nil
+      @onlyVis = true   
+    else
+      @onlyVis = false
+    end
 
     if params[:userid] == nil
       if params[:newest] != nil
-
-      @visualisations = get_newest_n(params[:newest])
+      @visualisations = get_newest_n(@onlyVis, !@needsModeration, params[:newest])
       end
 
-      if params[:needsModeration] != nil
-        @visualisations = @visualisations.select{ |vis| vis.approved == false }
+      if @needsModeration
+        @visualisations = @visualisations.select{ |vis| !vis.approved }
       else
-        @visualisations = @visualisations.select{ |vis| vis.approved == true }
+        @visualisations = @visualisations.select{ |vis| vis.approved }
+      end
+
+      if @onlyVis
+        @visualisations = @visualisations.select{ |vis| vis.vis_type = "vis" }
+      end
+
+      if params[:popular] != nil
+        @visualisations.sort_by{ |vis| vis["votes"] }.reverse! 
       end
       
     else
@@ -58,23 +139,40 @@ class VisualisationsController < ApplicationController
       end
 
       if params[:needsModeration] != nil
-        @visualisations = u.visualisations.approved(false)
+        @visualisations = u.visualisations.approved(false).vis
       else
-        @visualisations = u.visualisations.approved(true)
+        @visualisations = u.visualisations.approved(true).vis
       end
     end
 
     
   end
 
-  def get_newest_n(n)
-    return Visualisation.order(created_at: :desc).take(n)
+  def get_newest_n(onlyvis, approved, n)
+    if onlyvis
+      return Visualisation.where(approved: approved, vis_type: "vis").order(created_at: :desc).take(n)
+    else
+      return Visualisation.where(approved: approved).order(created_at: :desc).take(n)
+
+    end
   end
 
   # GET /visualisations/1
   # GET /visualisations/1.json
   def show
     @visualisation = Visualisation.find(params[:id])
+
+    if !@visualisation.approved
+      if params[:authentication_key] == nil
+        render status: :unauthorized
+        puts "No auth token"
+      else
+        if !current_user.isAdmin
+          render status: :unauthorizedi 
+          puts "Trying to show a non-approved vis without an admin"
+        end
+      end
+    end
   end
 
   # GET /visualisations/new
@@ -91,18 +189,42 @@ class VisualisationsController < ApplicationController
   def create
     p = visualisation_params
     @visualisation = Visualisation.new(p)
-    @visualisation.approved = true
-    #TODO: uncomment this when we have users
-    #current_user.visualisations << @visualisation
+
+    current_user.visualisations << @visualisation
+    @visualisation.user = current_user
+
+    saved = @visualisation.save
+
+    if saved then
+        # Handle background colour extraction in a separate thread
+        $sc_path = @visualisation.screenshot.path
+        $id = @visualisation.id
+    
+        Thread.new do
+        
+          puts "START(#{$id}): extracting bgcolour from #{$sc_path}"
+        
+          bgcolour = getBackgroundColor($sc_path)
+          
+          puts "START(#{$id}): extracting bgcolour from #{$sc_path}"
+          
+          v = Visualisation.find_by_id($id)
+          v.bgcolour = bgcolour
+          v.save!
+          ActiveRecord::Base.connection.close
+        end
+    end
+
     respond_to do |format|
-      if @visualisation.save
-        format.html { redirect_to @visualisation, notice: 'Visualisation was successfully created.' }
+      if saved
         format.json { render :show, status: :created, location: @visualisation }
       else
         format.html { render :new }
         format.json { render json: @visualisation.errors, status: :unprocessable_entity }
       end
     end
+
+
   end
 
   # PATCH/PUT /visualisations/1
@@ -137,6 +259,6 @@ class VisualisationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def visualisation_params
-      params[:visualisation].permit(:name, :link, :description, :notes, :author_info, :content_type, :file, :approved)
+      params.require(:visualisation).permit(:name, :link, :description, :notes, :author_info, :content_type, :file, :approved, :vis_type, :content, :screenshot, :min_playtime, :bgcolour)
     end
 end

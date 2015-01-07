@@ -1,12 +1,77 @@
 <section class="container-fluid" ng-controller="submitAdvertController">
     <div class="row">
 
-        <div id="submit-advert" class="col-sm-8">
+        <div id="submit-visualisation-col" class="col-sm-8">
+            <!-- this form holds the data -->
+            <form id="submit-visualisation" class="card" ng-init="visualisation={ }" ng-submit="submitAdvert()" name="submit-vis-form">
+            <!-- the names of the elements are IMPORTANT, they needs to be modelName[fieldName] for rails to pick them up and insert into the right place  -->
 
+                <div class="content">
+                    <input type="text" 
+                           placeholder="Advert Name" 
+                           ng-model="visualisation.name"
+                           id="name"
+                           name="visualisation[name]"/>
+                    <input type="text"
+                           id="authorinfo" 
+                           placeholder="Author's website/more info (optional)" 
+                           ng-model="visualisation.author_info"
+                           name="visualisation[author_info]"/>
+                    <div class="flex-wrapper">
+                        <div  class="content-type side-by-side">CONTENT TYPE</div>
+                        <select class="selection side-by-side" 
+                                ng-model="visualisation.content_type" 
+                                id="content_type"
+                                ng-init="visualisation.content_type = 'weblink'">
+                            <option ng-repeat="o in options" ng-selected="{[{o == visualisation.content_type}]}" value="{[{o}]}">{[{o}]}</option>
+                        </select>
+                        <input type="text" 
+                           placeholder="URL" 
+                           name="visualisation[link]"
+                           ng-model="visualisation.link"
+                           class="url side-by-side"
+                           id="url" ng-show="visualisation.content_type == 'weblink'"/>
+
+                        <input class="content-type file side-by-side" type="file" ng-show="visualisation.content_type == 'file'" name="visualisation[content]" id="content"/>
+                    </div>
+                    <textarea class="grow" 
+                           id="description" 
+                           placeholder="Description" 
+                           name="visualisation[description]"
+                           ng-model="visualisation.description" />
+                    <textarea class="grow" 
+                           placeholder="Notes/preferences/instructions (optional)" 
+                           name="visualisation[notes]"
+                           ng-model="visualisation.notes" />
+                </div>
+                <div class="bottom">
+                <input type="submit" id="submit" value="submit" class="submit"/>
+            </div>
+            </form>
         </div>
 
-        <div id="notices" class="col-sm-4">
-
+        <div id="guidelines" class="col-sm-4">
+            <div class="card guideline blue">
+                <div class="title">Content Types</div>
+                <div class="item">
+                    <div class="heading">Image (PNG, JPG)</div>
+                    <div class="description">Dimensions must be 1920 x 1080</div>
+                </div>
+                <div class="item">
+                    <div class="heading">Web Content (ZIP)</div>
+                    <div class="description">Must consist of static HTML, JS and CSS files</div>
+                    <div class="description">Visualisation should be contained within an index.html file in the root of the ZIP</div>
+                </div>
+            </div>
+            
+            <div class="card guideline yellow">
+                <div class="title">Visualisation Guidelines</div>
+                <div class="item">
+                    <div class="heading">Web Content</div>
+                    <div class="description">Visualisations should require no user input to start</div>
+                    <div class="description">Visualisations should scale to any screen size</div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

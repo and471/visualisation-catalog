@@ -1,0 +1,28 @@
+<h3> Playout Scheduling Summary </h3>
+
+For the timeslot starting at <%= @timeslot.start_time %>
+and ending at <%= @timeslot.end_time %> <p>
+
+<table border="1">
+
+<tr>
+  <th> Programme ID </th>
+  <th> Visualisation ID </th>
+  <th> Screens </th>
+  <th> Priority </th>
+  <th> Total Playout Time </th>
+</tr>
+
+<% @summary.each do |summary_item| %>
+<tr>
+  <td> <%= summary_item.programme_id %> </td>
+  <td> <%= summary_item.visualisation_id %> </td>
+  <td> <%= summary_item.screens %> </td>
+  <td> <%= summary_item.priority %> </td>
+  <td> <%= summary_item.vis_playout_time %> </td>
+</tr>
+<% end %> 
+
+</table>
+
+<script>$("body").removeAttr("ng-cloak")</script>

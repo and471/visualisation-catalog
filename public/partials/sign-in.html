@@ -1,0 +1,23 @@
+<form id="sign-in" class="card"  ng-submit="authenticate(username, password)">
+    
+    <div id="logo"></div>
+    
+    <div class="inputs">
+        <input type="text" ng-model="username" placeholder="Username"/>
+        <input type="password" ng-model="password" placeholder="Password"/>
+    </div>
+    
+    <div class="bottom">
+        <input type="submit" ng-disabled="{[{authenticating}]}" class="sign-in" value="{[{signInLabel}]}"></input>
+        <div style="clear:both"></div>
+    </div>
+
+</form>
+
+<div id="external" class="card">
+    
+    <div class="heading">External user?</div>
+    <a class="request" href="#/request-access">Request access...</a>
+    <div style="clear:both"></div>
+
+</div>

@@ -1,25 +1,49 @@
 <div id="moderate">
 
-    <table>
+     <table class="users">
+       <tbody>
+            <tr class="header">
+                <th>Name</th>
+                <th>Email</th>
+                <th>Purpose</th>
+            </tr>
+           <tr ng-if="externalUsers.length == 0">
+            <td colspan="5" class="no-content">No users to approve</td>
+           </tr>
+            <tr ng-if="externalUsers.length > 0" ng-repeat="user in externalUsers | filter:searchQuery">
+                <td class="title">{[{user.name}]}</td>
+                <td class="email"><a href="mailto:{[{user.email}]}">{[{user.email}]}</a></td>
+                <td class="purpose">{[{user.purpose}]}</div></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table class="content">
        <tbody>
             <tr class="header">
                 <th>Title</th>
                 <th>Type</th>
                 <th>Author</th>
                 <th>Content</th>
-                <th>Action</th>
+                <th></th>
             </tr>
            <tr ng-if="content.length == 0">
             <td colspan="5" class="no-content">No content to moderate</td>
            </tr>
             <tr ng-if="content.length > 0" ng-repeat="item in content | filter:searchQuery">
-                <td class="title"><a ng-href="#/visualisations/{[{item.id}]}">
-                    <div class="title">{[{item.title}]}</div>
-                    <div class="description">{[{item.description | words:15 }]}</div>
-                    </a></td>
-                <td>{[{item.type}]}</td>
-                <td class="author"><img ng-src="{[{item.author.image}]}"/><div class="name">{[{item.author.name}]}</div></td>
-                <td><a ng-href="{[{item.contentUrl}]}">{[{item.contentType}]}</a></td>
+                <td class="title">
+                    <a ng-href="#/visualisations/{[{item.id}]}">
+                        <div class="screenshot" style="background-image:url('{[{item.screenshot}]}')"></div>
+                        <div class="title">{[{item.name}]}</div>
+                        <div class="description">{[{item.description | words:15 }]}</div>
+                    </a>
+                </td>
+                <td>{[{formatContentType(item.vis_type)}]}</td>
+                <td class="author"><img ng-src="{[{item.author.avatar}]}"/><div class="name">{[{item.author.username}]}</div></td>
+                <td>
+                    <a ng-if="item.link != null" ng-href="{[{item.link}]}">{[{item.link}]}</a>
+                    <a ng-if="item.content != null" ng-href="{[{item.content}]}">Uploaded file</a>
+                </td>
                 <td class="action">
                     <a class="approve" ng-click="approve($event, item)">APPROVE</a>
                     <a class="reject" ng-click="reject($event, item)">REJECT</a>

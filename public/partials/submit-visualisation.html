@@ -2,23 +2,54 @@
     <div class="row">
 
         <div id="submit-visualisation-col" class="col-sm-8">
-            <form id="form" class="card" ng-init="visualisation={}">
+            <!-- this form holds the data -->
+            <form id="submit-visualisation" class="card" ng-init="visualisation={ }" ng-submit="submitVisualistion()" name="submit-vis-form">
+            <!-- the names of the elements are IMPORTANT, they needs to be modelName[fieldName] for rails to pick them up and insert into the right place  -->
+
                 <div class="content">
                     <input type="text" 
                            placeholder="Visualisation Name" 
-                           ng-model="visualisation.name" />
-                    <input type="text" 
+                           ng-model="visualisation.name"
+                           id="name"
+                           name="visualisation[name]"/>
+                    <input type="text"
+                           id="authorinfo" 
                            placeholder="Author's website/more info (optional)" 
-                           ng-model="visualisation.website" />                
+                           ng-model="visualisation.author_info"
+                           name="visualisation[author_info]"/>
+                    <div class="flex-wrapper">
+                        <div class="content-type">SCREENSHOT</div>
+                        <input class="file" type="file" name="visualisation[screenshot]" id="screenshot"/>
+                    </div>
+                    <div class="flex-wrapper">
+                        <div  class="content-type">CONTENT TYPE</div>
+                        <select class="selection" 
+                                ng-model="visualisation.content_type" 
+                                id="content_type"
+                                ng-init="visualisation.content_type = 'weblink'">
+                            <option ng-repeat="o in options" ng-selected="{[{o == visualisation.content_type}]}" value="{[{o}]}">{[{o}]}</option>
+                        </select>
+                        <input type="text" 
+                           placeholder="URL" 
+                           name="visualisation[link]"
+                           ng-model="visualisation.link"
+                           class="url side-by-side"
+                           id="url" ng-show="visualisation.content_type == 'weblink'"/>
+
+                        <input class="content-type file side-by-side" type="file" ng-show="visualisation.content_type == 'file'" name="visualisation[content]" id="content"/>
+                    </div>
                     <textarea class="grow" 
                            placeholder="Description" 
-                           ng-model="visualisation.description" />
+                           name="visualisation[description]"
+                           id="description" 
+                           ng-model="visualisation.description" ></textarea>
                     <textarea class="grow" 
                            placeholder="Notes/preferences/instructions (optional)" 
-                           ng-model="visualisation.notes" />
+                           name="visualisation[notes]"
+                           ng-model="visualisation.notes" ></textarea>
                 </div>
                 <div class="bottom">
-                <a class="submit">Submit</a>
+                <input type="submit" id="submit" value="submit" class="submit"/>
             </div>
             </form>
         </div>
