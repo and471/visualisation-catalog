@@ -3,6 +3,7 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
     $rootScope.page = {title: "Visualisations",  headerClass:"visualisations", searchEnabled : false, class:"view-visualisation"}
     $scope.currentUser = $rootScope.user.name;
     $scope.currentAvatar = $rootScope.user.avatar;
+    $scope.postLabel = "POST";
     var params = { id : $routeParams.id };
     if ($rootScope.user != null) {
         params.authentication_key = localStorage.getItem("authentication_key");   
@@ -15,7 +16,7 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
             showToast("Visualisation could not be retrieved");
         }
     );
-    
+
     $scope.thank = function() {
         showToast("Thanks for liking this visualisation!");      
     }
@@ -31,7 +32,7 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
     }
     
     $scope.submitComment = function() {
-
+         $scope.postLabel = "POSTING...";
          return Comment.new({ comment: $scope.comment,
                               authentication_key:localStorage.getItem("authentication_key"), 
                               visid : $routeParams.id

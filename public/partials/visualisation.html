@@ -26,7 +26,8 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="card view" id="submit-comment" ng-init="comment={ }" ng-submit="submitComment()" name="submit-comment-form">
+            <div class="card view">
+                <form id="submit-comment" ng-init="comment={ }" ng-submit="submitComment()" name="submit-comment-form">
                     <div class="comment">
                         <div class="top">
                             <div class="left">
@@ -39,9 +40,10 @@
                                class="inputtext" rows="4" wrap="hard"/>
                         </div>
                         <div class="bottom" style="text-align: right;">
-                            <input type="submit" id="submit" value="POST" class="post"/>
+                            <input type="submit" id="submit" value="{[{postLabel}]}" class="post"/>
                         </div>
                     </div>                        
+                </form>
             </div>
             <div class="card view">
                 <!--div class="comment">
