@@ -5,6 +5,11 @@ class CommentsController < ApplicationController
   # GET /comments.json
   def index
     @comments = Comment.all
+
+    if params[:visid] != nil
+      v = Visualisation.find_by_id(params[:visid])
+      @comments = v.comments
+    end
   end
 
   # GET /comments/1
