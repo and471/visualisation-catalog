@@ -31,6 +31,14 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
 
+    current_user.comments << @comment
+    @comment.user = current_user
+
+    v = Visualisation.find_by_id(params[:visid])
+    v.comments << @comment
+    @comment.visualisation = v
+
+
     respond_to do |format|
       if @comment.save
         format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
