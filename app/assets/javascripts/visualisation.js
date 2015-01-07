@@ -30,14 +30,22 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
             }                             
         );   
     }
+
+
     
     $scope.submitComment = function() {
-         $scope.postLabel = "POSTING...";
-         return Comment.new({ comment: $scope.comment,
-                              authentication_key:localStorage.getItem("authentication_key"), 
-                              visid : $routeParams.id
-                              }
-                            ); 
+        $scope.$watch('comment.content', function (newValue, oldValue) {
+            if(newValue === "")
+                $scope.comment.content = null;
+        });
+        
+        $scope.postLabel = "POSTING...";
+        return Comment.new({ comment: $scope.comment,
+                             authentication_key:localStorage.getItem("authentication_key"), 
+                             visid : $routeParams.id
+                           }),
+                $location.path('/');
+                             
             // Success
     
     }
