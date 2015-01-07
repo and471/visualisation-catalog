@@ -44,6 +44,7 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
             function() {
                 $scope.commentItems = Comment.query($routeParams.id);
                 $scope.comment_content = "";
+                $scope.postLabel = "POST";
             }
     }
     //$scope.commentItems = Comment.query;
