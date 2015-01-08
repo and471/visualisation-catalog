@@ -9,7 +9,7 @@ app.controller('requestAccessController', function($scope, $rootScope, $http, $r
         $scope.requesting = true;
         $scope.requestLabel = "Sending request...";
         
-        $http.post('/request.json', {name:name, company:company, email:email, notes:notes, 
+        $http.post('/requests.json', {name:name, company:company, email:email, notes:notes, 
                                             username:username, password:password}).
             success(function(data, status, headers, config) {
                 $scope.requesting = false;

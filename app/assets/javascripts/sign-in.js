@@ -27,6 +27,7 @@ app.controller('signInController', function($scope, $rootScope, $http, $routePar
             error(function(data, status, headers, config) {
                 $scope.authenticating = false;
                 $scope.signInLabel = "Sign In"
+                showToast("Log in failed. Please check your username and password are correct.")
             });
     }
     

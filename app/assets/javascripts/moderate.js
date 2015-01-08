@@ -1,5 +1,5 @@
 
-app.controller('moderateController', function(Visualisation, $scope, $rootScope, $location) {
+app.controller('moderateController', function(Visualisation, Request, User, $scope, $rootScope, $location) {
 
     if ($rootScope.user == null || $rootScope.user == undefined || !$rootScope.user.isAdmin) {
         showToast("Please log in as an administrator");
@@ -8,24 +8,38 @@ app.controller('moderateController', function(Visualisation, $scope, $rootScope,
     
     $rootScope.page = {title: "Moderate Content",  headerClass:"moderate", searchEnabled : true, class:"moderate"}
 
-
-    $scope.externalUsers = [];
-
-    $scope.approve = function(event, item) {
+    $scope.approveContent = function(event, item) {
         Visualisation.approve({id : item.id, authentication_key:localStorage.getItem("authentication_key")},
             // Success
             function() {
                 $scope.getContentToModerate();
             }
         );
-        $scope.fadeOutRow(event.target);
     }
 
-    $scope.reject = function(event, item) {
+    $scope.rejectContent = function(event, item) {
         Visualisation.reject({id : item.id, authentication_key:localStorage.getItem("authentication_key")},
             // Success
             function() {
                 $scope.getContentToModerate();
+            }
+        );
+    }
+    
+    $scope.approveUser = function(event, request) {
+        User.approve({id : request.user.id, authentication_key:localStorage.getItem("authentication_key")},
+            // Success
+            function() {
+                $scope.getRequests();
+            }
+        );
+    }
+
+    $scope.rejectUser = function(event, request) {
+        User.reject({id : request.user.id, authentication_key:localStorage.getItem("authentication_key")},
+            // Success
+            function() {
+                $scope.getRequests();
             }
         );
     }
@@ -35,10 +49,15 @@ app.controller('moderateController', function(Visualisation, $scope, $rootScope,
 	}
 	
 	$scope.getContentToModerate = function() {
-            $scope.content = Visualisation.query({needsModeration : 'true', expandUser: 'true', 
+        $scope.content = Visualisation.query({needsModeration : 'true', expandUser: 'true', 
                                               authentication_key:localStorage.getItem("authentication_key")});
 	}
 	
+	$scope.getRequests = function() {
+        $scope.requests = Request.query({authentication_key:localStorage.getItem("authentication_key")});
+	}
+	
+	$scope.getRequests();
 	$scope.getContentToModerate();
 
     performAnimation(".animate");

@@ -3,20 +3,30 @@
      <table class="users animate grow">
        <tbody>
             <tr class="header">
-                <th>Name</th>
+                <th></th>
                 <th>Email</th>
-                <th>Purpose</th>
+                <th>Notes</th>
+                <th></th>
             </tr>
-           <tr ng-if="externalUsers.length == 0">
+           <tr ng-show="requests.length == 0">
             <td colspan="5" class="no-content">No users to approve</td>
            </tr>
-            <tr ng-if="externalUsers.length > 0" ng-repeat="user in externalUsers | filter:searchQuery">
-                <td class="title">{[{user.name}]}</td>
-                <td class="email"><a href="mailto:{[{user.email}]}">{[{user.email}]}</a></td>
-                <td class="purpose">{[{user.purpose}]}</div></td>
+            <tr ng-show="requests.length > 0" ng-repeat="request in requests | filter:searchQuery">
+                <td class="name">
+                    <div class="name">{[{request.name}]}</div>
+                    <div class="username">{[{request.user.username}]}</div>
+                    <div class="company">{[{request.company}]}</div>
+                </td>
+                <td class="email"><a href="mailto:{[{request.email}]}">{[{request.email}]}</a></td>
+                <td class="notes">{[{request.notes}]}</td>
+                <td class="action">
+                    <a class="approve" ng-click="approveUser($event, request)">APPROVE</a>
+                    <a class="reject" ng-click="rejectUser($event, request)">REJECT</a>
+                </td>
             </tr>
         </tbody>
     </table>
+
     
     <table class="content animate grow" animate-delay=1>
        <tbody>
@@ -45,8 +55,8 @@
                     <a ng-if="item.content != null" ng-href="{[{item.content}]}">Uploaded file</a>
                 </td>
                 <td class="action">
-                    <a class="approve" ng-click="approve($event, item)">APPROVE</a>
-                    <a class="reject" ng-click="reject($event, item)">REJECT</a>
+                    <a class="approve" ng-click="approveContent($event, item)">APPROVE</a>
+                    <a class="reject" ng-click="rejectContent($event, item)">REJECT</a>
                 </td>
             </tr>
         </tbody>

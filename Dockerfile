@@ -10,8 +10,6 @@ RUN apt-get --yes --force-yes install curl
 RUN apt-get --yes install libkrb5-dev
 RUN  apt-get --yes install imagemagick libmagickwand-dev
 
-
-
 # Obtain public key for RVM, then pull and install RVM via curl
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 RUN curl -SL1 https://get.rvm.io | bash -s stable --ruby=2.1.4
@@ -42,4 +40,4 @@ WORKDIR /src
 EXPOSE 3123
 
 # Default start-up command (if not specified in 'docker run')
-CMD /bin/bash -c -l 'rake db:migrate && rake db:seed && rails server -p 3123' 
+CMD /bin/bash -c -l 'bundle install && rake db:migrate && rake db:seed && rails server -p 3123' 

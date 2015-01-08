@@ -20,7 +20,7 @@ group :development do
   gem 'quiet_assets'
   gem 'rails_layout'
 end
-gem 'devise-kerberos-authenticatable', :git => 'https://gitlab.doc.ic.ac.uk/tjt12/devise-kerberos-authenticatable.git'
+gem 'devise-kerberos-authenticatable', :github => 'tjth/devise-kerberos-authenticatable'
 gem 'rspec-rails', :group => [:development, :test]
 gem 'carrierwave'
 gem 'attribute-defaults'
