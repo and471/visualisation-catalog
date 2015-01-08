@@ -17,4 +17,24 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
+  def register_external(username, password)
+    u = User.find_by_username(username)
+    if u != nil
+      return nil
+    end
+
+    user = User.new({:username => username, :password => password})
+    user.encrypted_password = ::BCrypt::Password.create("#{password}#{user.class.pepper}", cost: user.class.stretches).to_s
+    user.isApproved = false
+
+    if user.save!
+      return user
+    else
+      puts user.errors.messages
+      return nil
+    end
+  end
+
+
 end

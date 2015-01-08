@@ -1,5 +1,8 @@
-Rails.application.routes.draw do
-  resources :comments
+Rails.application.routes.draw do #todo: delete this:)
+
+  patch '/users/:userid/approve' => 'users#approve'
+
+  delete '/users/:userid/reject' => 'users#reject'
 
   get 'timeslots/test'
 
@@ -39,6 +42,7 @@ Rails.application.routes.draw do
   resources :programmes
   resources :visualisations
   resources :timeslots
+  resources :requests
 
 
   get '/schedulingtest/' => 'timeslots#test'

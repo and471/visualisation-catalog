@@ -9,34 +9,34 @@ class TokensController < ApplicationController
         return
       end
  
-    if username.nil? or password.nil?
-       render :status=>400,
+      if username.nil? or password.nil?
+        render :status=>400,
               :json=>{:message=>"The request must contain the username and password."}
-       return
-    end
- 
-    @user=User.authenticate_with_kerberos(params)
-    if @user == nil
-      render :status=>400, :json=>{:message=>"Invalid username or password."}
-      return
-    end
+        return
+      end
 
-    #@user = User.find_by_username(params[:username])
-    #if nil == @user
-     # @user=User.authenticate_with_kerberos(params)
-      #if @user == nil
-       # render :status=>400, :json=>{:message=>"Invalid username or password."}
-        #return
-      #end
-    #else
-      #check if db user is valid
-     # puts @user.username
-      #if !@user.valid_password?(params[:password])
-       # puts "fail"
-        #render :status=>400, :json=>{:message=>"Invalid username or password."}
-        #return
-      #end
-    #end
+      @user = User.find_by_username(params[:username])
+      if nil == @user   #if we cant ind user, try auth with kerberos
+        @user=User.authenticate_with_kerberos(params)
+        if @user == nil
+                puts "***"
+          render :status=>400, :json=>{:message=>"Invalid username or password."}
+          return
+        end
+      else #check if db user is valid first
+        if !@user.valid_password?(params[:password])
+          @user=User.authenticate_with_kerberos(params)
+          if @user == nil
+            render :status=>400, :json=>{:message=>"Invalid username or password."}
+            return
+          end
+        end
+
+        if !@user.isApproved
+          render :status=>400, :json=>{:message=>"User is not yet approved!"}
+          return
+        end
+      end
 
 
 # http://rdoc.info/github/plataformatec/devise/master/Devise/Models/TokenAuthenticatable

@@ -11,16 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20141218164719) do
-=======
-ActiveRecord::Schema.define(version: 20141113151554) do
->>>>>>> b1a54b56e3214742ed608a959358a3593fbc278a
-=======
-
-ActiveRecord::Schema.define(version: 20141218164719) do
->>>>>>> f8862a27d709a89ac6637dd226e98dda91fe659a
+ActiveRecord::Schema.define(version: 20150107230125) do
 
   create_table "comments", force: true do |t|
     t.text     "content"
@@ -57,18 +48,22 @@ ActiveRecord::Schema.define(version: 20141218164719) do
   add_index "programmes", ["timeslot_id"], name: "index_programmes_on_timeslot_id"
   add_index "programmes", ["visualisation_id"], name: "index_programmes_on_visualisation_id"
 
+  create_table "requests", force: true do |t|
+    t.string   "name"
+    t.string   "company"
+    t.string   "email"
+    t.text     "notes"
+    t.string   "desired_username"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
+
   create_table "timeslots", force: true do |t|
     t.datetime "start_time"
     t.datetime "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    t.date     "date"
->>>>>>> b1a54b56e3214742ed608a959358a3593fbc278a
-=======
->>>>>>> f8862a27d709a89ac6637dd226e98dda91fe659a
   end
 
   create_table "users", force: true do |t|

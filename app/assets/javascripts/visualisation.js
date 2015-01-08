@@ -70,6 +70,7 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
     }
     
     performAnimation(".animate");
-    
+
     $scope.getComments();
+
 });
