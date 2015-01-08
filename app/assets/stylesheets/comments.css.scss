@@ -1,3 +1,113 @@
 // Place all the styles related to the Comments controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "variables";
+@import "mixins";
+
+#comment-col {
+    height:auto;
+    $head-size: 38px;
+
+    @media (max-width: $mobile-width) {
+        &:first-child {
+            margin-top:20px;   
+        }
+    }
+    
+    #bottom_comment_bar {
+        text-align: left;
+        vertical-align: middle;
+        color: #9E9E9E;
+        border-bottom-left-radius:3px;
+        border-bottom-right-radius:3px;
+        
+        &.posted {
+            line-height: 3em;
+            padding: 0.5em 1em 0em;
+        }
+        .post {
+            padding: 1rem 1.5rem;
+            line-height: 2em;
+            text-align: right;
+            background: transparent;
+            border: transparent;
+            text-transform:uppercase;
+            @include link(#039BE5);
+        }
+        .name {
+            line-height: $head-size;
+        }
+    }
+    
+
+    #avatar {
+        padding: 5px;
+        vertical-align: top;
+        margin: 10px;
+        border-radius:50%;
+        width:$head-size;
+        height:$head-size;    
+    }
+    
+    
+    #submit-comment {
+        display: flex;
+        flex-direction: column;
+
+        .content{
+            flex-grow: 1;
+            display:flex;
+            flex-direction:column;
+            input {
+                width:100%;
+                margin-top: 10px;
+
+                &:first-child {
+                    margin-top: 0px;
+                }
+            }
+            
+            textarea {
+                -webkit-box-sizing: border-box;
+            	-moz-box-sizing: border-box;
+            	box-sizing: border-box;
+                padding-top: 1em;
+                padding-bottom: 1em;
+                padding-left: 0em;
+                padding-right: 0em;
+                margin-left: 0.4em;
+                text-align: left;
+                min-width: calc(100% - #{$head-size} - 3em);            
+
+            }
+
+            .grow {
+                flex-grow: 1;
+            }
+        }
+    }
+    #comment-item {
+        height: auto;
+
+        .top {
+            display: flex;
+            
+            .left {
+                flex-grow: 0;
+                flex-shrink: 0;
+                
+                
+            }
+        }
+        
+        .content{
+            padding-top: 1em;
+            padding-bottom: 1em;
+            padding-left: 0em;
+            padding-right: 1em;
+            text-align: left;
+            font-size:0.9rem;
+            flex-grow:1;
+        }
+    }        
+}

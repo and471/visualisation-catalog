@@ -53,7 +53,7 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
                         showToast("Comments could not be retrieved");
                     }
                 );
-                console.log($scope.comments);
+                showToast("Thanks for posting a comment!");
         });
     }
     

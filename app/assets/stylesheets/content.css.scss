@@ -12,6 +12,15 @@
         margin-bottom: 20px;
     }
     
+    &.comment-item {
+        $padding:0.9rem;
+        text-align: center;
+        font-size:$padding;
+        padding-bottom:$padding;
+        font-weight:500;
+        margin-bottom: 20px;
+    }
+    
     &.guideline {
         height: 100%;
         $padding:0.9rem;
@@ -198,78 +207,6 @@
         }
     }
 
-}
-
-.comment {
-    $head-size: 44px;
-    
-    @media (max-width: $mobile-width) {
-        &:first-child {
-            margin-top:20px;   
-        }
-    }
-
-    .top {
-        display:flex;
-        
-        .left {
-            flex-grow: 0;
-            flex-shrink: 0;
-            
-            .avatar {
-                padding: 5px;
-                vertical-align: top;
-                margin: 10px;
-                border-radius:50%;
-                width:$head-size;
-                height:$head-size;
-            }
-        }
-    
-        .inputtext{
-            padding-top: 1em;
-            padding-bottom: 1em;
-            padding-left: 0em;
-            padding-right: 0em;
-            margin-left: 0.4em;
-            text-align: left;
-            width: calc(100% - #{$head-size} - 3em);
-        }
-
-        .commenttext {
-            padding-top: 1em;
-            padding-bottom: 1em;
-            padding-left: 0em;
-            padding-right: 1em;
-            text-align: left;
-            font-size:0.9rem;
-            flex-grow:1;
-        } 
-    }
-    
-    .bottom {
-        text-align: left;
-        vertical-align: middle;
-        color: #9E9E9E;
-        border-bottom-left-radius:3px;
-        border-bottom-right-radius:3px;
-        
-        &.posted {
-            line-height: 3em;
-            background-color: #E0E0E0;
-            padding: 0.2rem 1rem;
-        }
-
-        .post {
-            padding: 1rem 1.5rem;
-            line-height: 2em;
-            text-align: right;
-            background: transparent;
-            border: transparent;
-            text-transform:uppercase;
-            @include link(#039BE5);
-        }
-    }
 }
 
 .floating-badge {
