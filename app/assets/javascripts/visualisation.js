@@ -43,32 +43,33 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
                     },
             // Success
             function() {
-//                $scope.commentItems = Comment.query(params.id);
-                $scope.comment_content = '';
-                comment_content = '';
-                $scope.postLabel = "POST";
-                $scope.comments = Comment.query(params, function() {}, 
-                    // Failure
-                    function() {
-                        $scope.comments = null;
-                        showToast("Comments could not be retrieved");
-                    }
-                );
+                $("textarea#comment_content").val("")
                 showToast("Thanks for posting a comment!");
+                $scope.postLabel = "POST";
+                $scope.getComments();
         });
     }
     
-    $scope.comments = Comment.query(visparams, function() {}, 
-        // Failure
-        function() {
-            $scope.comments = null;
-            showToast("Comments could not be retrieved");
-        }
-    );
+    $scope.getComments = function() {   
+        $scope.comments = Comment.query(visparams, function() {}, 
+            // Failure
+            function() {
+                $scope.comments = null;
+                showToast("Comments could not be retrieved");
+            }
+        );
+    }
+
+    $scope.formatDate = function(string) {
+        date = moment(string)
+        return date.format("HH:mm DD/MM/YY")
+    }
     
     if ($location.search().voted) {
         $scope.thank();  
     }
     
     performAnimation(".animate");
+    
+    $scope.getComments();
 });

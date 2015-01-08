@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="col-sm-6" id="comment-col">
-            <div class="card comment-item animate grow" animate-delay=1 ng-if="user != null">
+            <div class="card comment-item animate grow" animate-delay=1 ng-show="user != null">
                 <form id="submit-comment" ng-submit="submitComment(comment_content)" name="submit-comment-form">
 
                         <div class="top">
@@ -47,7 +47,7 @@
                                            
                 </form>
             </div>
-            <div id="comment-item" class="card animate grow" animate-delay=1 ng-if="user == null">
+            <div id="comment-item" class="card animate grow" animate-delay=1 ng-show="user == null">
                 <div class="comment-item">
                     <div class="nouser">Please login to comment</div>
                 </div>
@@ -60,7 +60,7 @@
                     <div class="content">{[{c.content}]}</div>
                 </div>
                 <div class="bottom" class="posted">
-                    Posted on {[{c.created_at}]} by {[{c.user.username}]}
+                    Posted at {[{formatDate(c.created_at)}]}, by {[{c.user.username}]}
                 </div>
             </div>
         </div>

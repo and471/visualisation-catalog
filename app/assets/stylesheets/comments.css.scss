@@ -75,7 +75,7 @@
                 padding: 0 1em 1em 1em;
                                 
                 .post {
-                    padding:0 1em;
+                    padding:0 1em .5em 1em;
                     text-align: right;
                     background: transparent;
                     border: transparent;
@@ -89,14 +89,9 @@
         }
         
         .nouser {
-            $height:1.2em + 2 * 1em;
-            font-size:1em;
-            text-transform:uppercase;
+            padding:2em;
             text-align: center;
-            height:$height;
-            line-height:$height;
-            border-top-left-radius: $card-radius;
-            border-top-right-radius: $card-radius;
+            color:#9e9e9e
         }
     }        
 }
