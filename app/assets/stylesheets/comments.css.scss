@@ -109,5 +109,16 @@
             font-size:0.9rem;
             flex-grow:1;
         }
+        
+        .nouser {
+            $height:1.2em + 2 * 1em;
+            font-size:1em;
+            text-transform:uppercase;
+            text-align: center;
+            height:$height;
+            line-height:$height;
+            border-top-left-radius: $card-radius;
+            border-top-right-radius: $card-radius;
+        }
     }        
 }
