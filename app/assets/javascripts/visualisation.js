@@ -5,6 +5,7 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
     $scope.postLabel = "POST";
 
     var params = { id : $routeParams.id };
+    var visparams = { visid : $routeParams.id };
     if ($rootScope.user != null) {
         $scope.currentAvatar = $rootScope.user.avatar;
         params.authentication_key = localStorage.getItem("authentication_key");   
@@ -57,7 +58,7 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
         });
     }
     
-    $scope.comments = Comment.query(params, function() {}, 
+    $scope.comments = Comment.query(visparams, function() {}, 
         // Failure
         function() {
             $scope.comments = null;

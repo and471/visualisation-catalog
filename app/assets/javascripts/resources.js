@@ -32,7 +32,7 @@ app.factory('Comment', ['$resource',
         return $resource('comments/:visid.json', {id : "@id"}, {
             new:    { method: 'POST', url: 'comments.json', responseType: 'json'},
             query:  { method:'GET', url:'comments.json', isArray:true },
-            remove: { method: 'DELETE', url:'comments/:visid.json', responseType: 'json'},
+            remove: { method: 'DELETE', url:'comments.json', responseType: 'json'},
         });
 }]);
 
