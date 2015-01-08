@@ -1,12 +1,15 @@
 
 app.controller('visualisationController', function ($scope, $rootScope, Visualisation, Comment, $routeParams, $location) {
     $rootScope.page = {title: "Visualisations",  headerClass:"visualisations", searchEnabled : false, class:"view-visualisation"}
-    $scope.currentUser = $rootScope.user.name;
-    $scope.currentAvatar = $rootScope.user.avatar;
+    
     $scope.postLabel = "POST";
+
     var params = { id : $routeParams.id };
     if ($rootScope.user != null) {
+        $scope.currentAvatar = $rootScope.user.avatar;
         params.authentication_key = localStorage.getItem("authentication_key");   
+    } else {
+        $scope.currentAvatar = null;    
     }
 
     $scope.visualisation = Visualisation.get(params, function() {}, 
@@ -30,24 +33,37 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
             }                             
         );   
     }
-
     
-    $scope.submitComment = function() {
-        
+    $scope.submitComment = function(comment_content) {
         $scope.postLabel = "POSTING...";
-        console.log($scope.comment_content);
-        Comment.new({ comment: { content : $scope.comment_content },
-                         authentication_key:localStorage.getItem("authentication_key"), 
-                         visid : $routeParams.id
-                       }),
+        Comment.new({ comment: { content : comment_content },
+                      authentication_key:localStorage.getItem("authentication_key"), 
+                      visid : params.id
+                    },
             // Success
             function() {
-                $scope.commentItems = Comment.query($routeParams.id);
-                $scope.comment_content = "";
+//                $scope.commentItems = Comment.query(params.id);
+                $scope.comment_content = '';
+                comment_content = '';
                 $scope.postLabel = "POST";
-            }
+                $scope.comments = Comment.query(params, function() {}, 
+                    // Failure
+                    function() {
+                        $scope.comments = null;
+                        showToast("Comments could not be retrieved");
+                    }
+                );
+                console.log($scope.comments);
+        });
     }
-    //$scope.commentItems = Comment.query;
+    
+    $scope.comments = Comment.query(params, function() {}, 
+        // Failure
+        function() {
+            $scope.comments = null;
+            showToast("Comments could not be retrieved");
+        }
+    );
     
     if ($location.search().voted) {
         $scope.thank();  

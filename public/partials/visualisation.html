@@ -26,17 +26,17 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="card view">
-                <form id="submit-comment" ng-submit="submitComment()" name="submit-comment-form">
+            <div class="card view" ng-if="user != null">
+                <form id="submit-comment" ng-submit="submitComment(comment_content)" name="submit-comment-form">
                     <div class="comment">
                         <div class="top">
                             <div class="left">
-                                <img align="left" class="avatar" ng-src="{[{currentAvatar}]}"/>
+                                <img align="left" class="icon avatar" ng-src="{[{currentAvatar}]}"/>
                             </div>
                             <textarea
                                placeholder="Comment"
                                ng-model="comment_content"
-                               id="content"
+                               id="comment_content"
                                class="inputtext" rows="4" wrap="hard"/>
                         </div>
                         <div class="bottom" style="text-align: right;">
@@ -45,16 +45,23 @@
                     </div>                        
                 </form>
             </div>
+            <div class="card view" ng-if="user == null">
+                <div class="comment">
+                        <div class="description">Please login to comment</div>
+                    </div>
+                 </div>          
+            </div>
             <div class="card view">
-                <div class="comment" ng-repeat="c in commentItems">
+                <div class="comment" ng-repeat="c in comments">
                     <div class="top">
                         <div class="left">
-                            <img align="left" class="avatar" ng-src="{[{c.user.avatar}]}"/>
+                            <img align="left" class="icon avatar" ng-if="user != null" ng-src="{[{c.user.avatar}]}"/>
+                            <div class="name">{[{c.user.username}]}</div>
                         </div>
-                        <div class="commenttext">{[{c.text}]}</div>
+                        <div class="commenttext">{[{c.content}]}</div>
                     </div>
                     <div class="bottom posted">
-                        Posted on {[{c.date}]}
+                        Posted on {[{c.created_at}]}
                     </div>                
                 </div>               
                 
