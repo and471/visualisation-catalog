@@ -27,6 +27,15 @@ app.factory('Visualisation', ['$resource',
         });
 }]);
 
+app.factory('Comment', ['$resource',
+    function($resource){
+        return $resource('comments/:visid.json', {id : "@id"}, {
+            new:    { method: 'POST', url: 'comments.json', responseType: 'json'},
+            query:  { method:'GET', url:'comments.json', isArray:true },
+            remove: { method: 'DELETE', url:'comments.json', responseType: 'json'},
+        });
+}]);
+
 app.factory('Timeslot', ['$resource',
     function($resource){
         return $resource('timeslots/:id.json', {id:"@id"}, {

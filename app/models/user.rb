@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   devise :kerberos_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :token_authenticatable
   has_many :visualisations
+  has_many :comments
 
   mount_uploader :avatar, AvatarUploader
 

@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20141218164719) do
+=======
+ActiveRecord::Schema.define(version: 20141113151554) do
+>>>>>>> b1a54b56e3214742ed608a959358a3593fbc278a
+=======
+
+ActiveRecord::Schema.define(version: 20141218164719) do
+>>>>>>> f8862a27d709a89ac6637dd226e98dda91fe659a
 
   create_table "comments", force: true do |t|
     t.text     "content"
@@ -53,6 +62,13 @@ ActiveRecord::Schema.define(version: 20141218164719) do
     t.datetime "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    t.date     "date"
+>>>>>>> b1a54b56e3214742ed608a959358a3593fbc278a
+=======
+>>>>>>> f8862a27d709a89ac6637dd226e98dda91fe659a
   end
 
   create_table "users", force: true do |t|

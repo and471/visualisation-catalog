@@ -25,36 +25,46 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="card view animate grow" animate-delay=1>
-                    <div class="comment">
+        <div class="col-sm-6" id="comment-col">
+            <div class="card view animate grow" animate-delay=1 ng-if="user != null">
+                <form id="submit-comment" ng-submit="submitComment(comment_content)" name="submit-comment-form">
+                    <div class="content">
                         <div class="top">
                             <div class="left">
-                                <img align="left" class="avatar" ng-src="{[{commentsimage}]}"/>
+                                <img align="left" id="avatar" class="icon avatar" ng-src="{[{currentAvatar}]}"/>
                             </div>
-                            <textarea placeholder="Comment" class="inputtext" rows="4" wrap="hard"></textarea>
+                            <textarea
+                               placeholder="Comment"
+                               ng-model="comment_content"
+                               id="comment_content"
+                               rows="4" wrap="hard"/>
                         </div>
-                        <div class="bottom" style="text-align: right;">
-                            <button class="post" >POST</button>
+                        <div id="bottom_comment_bar" style="text-align: right;">
+                            <input type="submit" id="submit" value="{[{postLabel}]}" class="post"/>
                         </div>
                     </div>                        
+                </form>
             </div>
-            <div class="card view animate grow" animate-delay=2>
-                <div class="comment">
+            <div id="comment-item" class="card view animate grow" animate-delay=1 ng-if="user == null">
+                <div class="comment-item">
+                    <div class="nouser">Please login to comment</div>
+                </div>
+            </div>          
+            <div id="comment-item">
+                <div class="comment-item card view animate grow" ng-repeat="c in comments" animate-delay="{[{$index+2}]}" >
                     <div class="top">
                         <div class="left">
-                            <img align="left" class="avatar" ng-src="{[{commentsimage}]}"/>
+                            <img align="left" class="icon" id="avatar" ng-src="{[{c.user.avatar}]}"/>
+                            <div class="name">{[{c.user.username}]}</div>
                         </div>
-                        <div class="commenttext">{[{commentstext}]}</div>
+                        <div class="content">{[{c.content}]}</div>
                     </div>
-                    <div class="bottom posted">
-                        Posted on {[{commentsdate}]}
-                    </div>                
-                </div>               
-                
-            </div>                
-                
+                    <div id="bottom_comment_bar" class="posted">
+                        Posted on {[{c.created_at}]}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </section>
