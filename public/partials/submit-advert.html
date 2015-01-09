@@ -3,24 +3,22 @@
 
         <div id="submit-visualisation-col" class="col-sm-8">
             <!-- this form holds the data -->
-            <form id="submit-visualisation" class="card animate grow" ng-init="visualisation={ }" ng-submit="submitAdvert()" name="submit-vis-form">
+            <form id="submit-advert" class="card animate grow" ng-submit="submit()">
             <!-- the names of the elements are IMPORTANT, they needs to be modelName[fieldName] for rails to pick them up and insert into the right place  -->
 
                 <div class="content">
                     <input type="text" 
+                           required
                            placeholder="Advert Name" 
-                           ng-model="visualisation.name"
                            id="name"
                            name="visualisation[name]"/>
                     <input type="url"
                            id="authorinfo" 
                            placeholder="Author's website/more info (optional)" 
-                           ng-model="visualisation.author_info"
                            name="visualisation[author_info]"/>
                     <div class="flex-wrapper">
                         <div  class="content-type side-by-side">CONTENT TYPE</div>
                         <select class="selection side-by-side" 
-                                ng-model="visualisation.content_type" 
                                 id="content_type"
                                 ng-init="visualisation.content_type = 'weblink'">
                             <option ng-repeat="o in options" ng-selected="{[{o == visualisation.content_type}]}" value="{[{o}]}">{[{o}]}</option>
@@ -28,7 +26,6 @@
                         <input type="url" 
                            placeholder="URL" 
                            name="visualisation[link]"
-                           ng-model="visualisation.link"
                            class="url side-by-side"
                            id="url" ng-show="visualisation.content_type == 'weblink'"/>
 
@@ -36,16 +33,15 @@
                     </div>
                     <textarea class="grow" 
                            id="description" 
-                           placeholder="Description" 
-                           name="visualisation[description]"
-                           ng-model="visualisation.description" />
+                           placeholder="Description"
+                           required
+                           name="visualisation[description]"/>
                     <textarea class="grow" 
                            placeholder="Notes/preferences/instructions (optional)" 
-                           name="visualisation[notes]"
-                           ng-model="visualisation.notes" />
+                           name="visualisation[notes]" />
                 </div>
                 <div class="bottom">
-                <input type="submit" id="submit" value="submit" class="submit"/>
+                <input type="submit" id="submit" value="{[{submitText}]}" class="submit"/>
             </div>
             </form>
         </div>

@@ -49,7 +49,7 @@ app.controller('moderateController', function(Visualisation, Request, User, $sco
 	}
 	
 	$scope.getContentToModerate = function() {
-        $scope.content = Visualisation.query({needsModeration : 'true', expandUser: 'true', 
+        $scope.content = Visualisation.query({needsModeration : 'true',
                                               authentication_key:localStorage.getItem("authentication_key")});
 	}
 	

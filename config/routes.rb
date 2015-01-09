@@ -8,8 +8,6 @@ Rails.application.routes.draw do #todo: delete this:)
 
   get '/visualisations/:visid/vote' => 'visualisations#vote'
 
-  get '/visualisations/get_all' => 'visualisations#get_all'
-
   root to: 'visitors#index'
   devise_for :users, :token_authentication_key => 'authentication_key'
 
