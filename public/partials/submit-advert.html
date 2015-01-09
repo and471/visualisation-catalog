@@ -12,7 +12,7 @@
                            ng-model="visualisation.name"
                            id="name"
                            name="visualisation[name]"/>
-                    <input type="text"
+                    <input type="url"
                            id="authorinfo" 
                            placeholder="Author's website/more info (optional)" 
                            ng-model="visualisation.author_info"
@@ -25,7 +25,7 @@
                                 ng-init="visualisation.content_type = 'weblink'">
                             <option ng-repeat="o in options" ng-selected="{[{o == visualisation.content_type}]}" value="{[{o}]}">{[{o}]}</option>
                         </select>
-                        <input type="text" 
+                        <input type="url" 
                            placeholder="URL" 
                            name="visualisation[link]"
                            ng-model="visualisation.link"

@@ -12,10 +12,10 @@
                            ng-model="visualisation.name"
                            id="name"
                            name="visualisation[name]"/>
-                    <input type="text"
-                           id="authorinfo" 
+                    <input id="authorinfo" 
                            placeholder="Author's website/more info (optional)" 
                            ng-model="visualisation.author_info"
+                           type="url"
                            name="visualisation[author_info]"/>
                     <div class="flex-wrapper">
                         <div class="content-type">SCREENSHOT</div>
@@ -29,11 +29,12 @@
                                 ng-init="visualisation.content_type = 'weblink'">
                             <option ng-repeat="o in options" ng-selected="{[{o == visualisation.content_type}]}" value="{[{o}]}">{[{o}]}</option>
                         </select>
-                        <input type="text" 
+                        <input
                            placeholder="URL" 
                            name="visualisation[link]"
                            ng-model="visualisation.link"
                            class="url side-by-side"
+                           type="url"
                            id="url" ng-show="visualisation.content_type == 'weblink'"/>
 
                         <input class="content-type file side-by-side" type="file" ng-show="visualisation.content_type == 'file'" name="visualisation[content]" id="content"/>
