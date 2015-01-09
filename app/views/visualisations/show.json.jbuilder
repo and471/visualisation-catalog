@@ -11,6 +11,7 @@
   json.content_type @visualisation.content_type
   json.bgcolour @visualisation.bgcolour
   json.votes @visualisation.votes
+  json.author_info @visualisation.author_info
 
   json.author do
     json.username @visualisation.user.username

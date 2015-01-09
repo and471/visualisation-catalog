@@ -3,7 +3,7 @@
         <div id="details" class="col-sm-6" class="card vis" style="height:100%; padding-top:10px;">
             <div class="view card animate grow">
                 <div class="visualisation">
-                    <a ng-href="{[{ visualisation.link }]}" class="top" style="background-image: url({[{ visualisation.screenshot }]});"></a>
+                    <a ng-href="/visualisations/{[{ id }]}/display" class="top" style="background-image: url({[{ visualisation.screenshot }]});"></a>
                     <div class="header" color-thief color="{[{visualisation.bgcolour}]}">
                         {[{ visualisation.name }]}
                         <div class="floating-badge" ng-click="vote()"><div class="icon like"></div></div>
@@ -19,7 +19,7 @@
                             <div class="number">{[{visualisation.votes}]}</div>
                         </div>
                         <div class="link">
-                            <a href="{[{visualisation.link}]}">{[{visualisation.link}]}</a>
+                            <a href="{[{visualisation.author_info}]}">{[{visualisation.author_info}]}</a>
                         </div>
                     </div>
                 </div>
