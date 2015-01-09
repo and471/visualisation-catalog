@@ -24,17 +24,32 @@ class VisualisationsController < ApplicationController
     end
   end
 
-  # TODO
-  # GET /visualisations/:visid/render_vis
-  def render_vis
+  
+  def display
     v = Visualisation.find_by_id(params[:visid])
     if v == nil
-      render :status => :internal_server_error, :text => "No such vis."
+      render :status => 500, :text => "No such vis"
       return
     end
 
     if v.content_type == "weblink"
       redirect_to v.link
+      return
+    end
+
+    @id = params[:visid]
+    #TODO set @type. can use v.content.file.extension.downcase
+    #check content uploader for whitelisted file extensions
+
+    render "display" #will render display.html.erb in visualisation views dir
+  end
+
+  # TODO
+  # GET /visualisations/:visid/render_vis
+  def display_internal
+    v = Visualisation.find_by_id(params[:visid])
+    if v == nil
+      render :status => :internal_server_error, :text => "No such vis."
       return
     end
 
