@@ -25,13 +25,12 @@ class VisualisationsController < ApplicationController
   end
 
   # TODO
-  # GET /visualisations/:visid/render_vis
-  def render_vis
+  # GET /visualisations/:visid/display
+  def display
     v = Visualisation.find_by_id(params[:visid])
     if v == nil
-      render :status => :internal_server_error, :text => "No such vis."
+      render :status => 500, :text => "No such vis"
       return
-      #TODO: could show default vis here
     end
 
     if v.content_type == "weblink"
@@ -39,9 +38,40 @@ class VisualisationsController < ApplicationController
       return
     end
 
-    #else we have a visualisation
-    #TODO: render a html file that displays the vis
+    @id = params[:visid]
+    
+    @type = nil
+    
+    file_ext = v.content.file.extension.downcase
+    if ['jpg', 'jpeg', 'png'].include? file_ext
+        @type = "image"
+    elsif ['mp4', 'avi', 'mov', 'wmv', 'webm'].include? file_ext
+        @type = "video"
+    end
+    
+    respond_to do |format|
+      format.html {render :layout => 'blank'}
+    end
+    
+    #render "display" #will render display.html.erb in visualisation views dir
+  end
 
+  # TODO
+  # GET /visualisations/:visid/display_internal
+  def display_internal
+    v = Visualisation.find_by_id(params[:visid])
+    if v == nil
+      render :status => :internal_server_error, :text => "No such vis."
+      return
+    end
+
+    if v.content.file.extension.downcase == "zip"
+      #TODO - static web content
+      return
+    end
+
+
+    send_file v.content.path, :disposition => "inline"
   end
 
 

@@ -51,8 +51,8 @@
                 <td>{[{formatContentType(item.vis_type)}]}</td>
                 <td class="author"><img ng-src="{[{item.author.avatar}]}"/><div class="name">{[{item.author.username}]}</div></td>
                 <td>
-                    <a ng-if="item.link != null" ng-href="{[{item.link}]}">{[{item.link}]}</a>
-                    <a ng-if="item.content != null" ng-href="{[{item.content}]}">Uploaded file</a>
+                    <a ng-show="item.link != null && item.link != ''" ng-href="/visualisations/{[{ item.id }]}/display">Web link</a>
+                    <a ng-show="item.content != null && item.content != ''" ng-href="/visualisations/{[{ item.id }]}/display">Uploaded file</a>
                 </td>
                 <td class="action">
                     <a class="approve" ng-click="approveContent($event, item)">APPROVE</a>

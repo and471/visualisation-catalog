@@ -33,7 +33,8 @@ Rails.application.routes.draw do #todo: delete this:)
 
   get '/playout_sessions/info' => 'playout_sessions#get_info'
 
-  get '/visualisations/:visid/render_vis' => 'visualisations#render_vis'
+  get '/visualisations/:visid/display' => 'visualisations#display'
+  get '/visualisations/:visid/display_internal' => 'visualisations#display_internal'
 
   post '/users/register' => 'users#register'
 
@@ -43,6 +44,7 @@ Rails.application.routes.draw do #todo: delete this:)
   resources :visualisations
   resources :timeslots
   resources :requests
+  resources :comments
 
 
   get '/schedulingtest/' => 'timeslots#test'

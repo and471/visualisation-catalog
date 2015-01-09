@@ -4,6 +4,8 @@ app.controller('visualisationController', function ($scope, $rootScope, Visualis
     
     $scope.postLabel = "POST";
 
+    $scope.id = $routeParams.id;
+
     var params = { id : $routeParams.id };
     var visparams = { visid : $routeParams.id };
     if ($rootScope.user != null) {
