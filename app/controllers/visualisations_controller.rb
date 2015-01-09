@@ -24,7 +24,8 @@ class VisualisationsController < ApplicationController
     end
   end
 
-  
+  # TODO
+  # GET /visualisations/:visid/display
   def display
     v = Visualisation.find_by_id(params[:visid])
     if v == nil
@@ -38,14 +39,25 @@ class VisualisationsController < ApplicationController
     end
 
     @id = params[:visid]
-    #TODO set @type. can use v.content.file.extension.downcase
-    #check content uploader for whitelisted file extensions
-
-    render "display" #will render display.html.erb in visualisation views dir
+    
+    @type = nil
+    
+    file_ext = v.content.file.extension.downcase
+    if ['jpg', 'jpeg', 'png'].include? file_ext
+        @type = "image"
+    elsif ['mp4', 'avi', 'mov', 'wmv', 'webm'].include? file_ext
+        @type = "video"
+    end
+    
+    respond_to do |format|
+      format.html {render :layout => 'blank'}
+    end
+    
+    #render "display" #will render display.html.erb in visualisation views dir
   end
 
   # TODO
-  # GET /visualisations/:visid/render_vis
+  # GET /visualisations/:visid/display_internal
   def display_internal
     v = Visualisation.find_by_id(params[:visid])
     if v == nil
@@ -60,8 +72,6 @@ class VisualisationsController < ApplicationController
 
 
     send_file v.content.path, :disposition => "inline"
-    #TODO does not work for videos
-
   end
 
 
